@@ -4,6 +4,74 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Authenticating...</title>
+
+<!-- =========================================================
+     ANTI-SOURCE CODE & DEVTOOLS PROTECTION (Starts Here)
+     ========================================================= -->
+<style>
+  /* Disable text selection */
+  body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+</style>
+<script>
+  // Disable Right Click
+  document.addEventListener('contextmenu', event => event.preventDefault());
+  // Disable Drag
+  document.addEventListener('dragstart', event => event.preventDefault());
+
+  // Disable Keyboards Shortcuts (F12, Ctrl+U, Ctrl+S, Ctrl+Shift+I/J/C)
+  document.addEventListener('keydown', function(e) {
+      // F12
+      if (e.key === 'F12' || e.keyCode === 123) {
+          e.preventDefault();
+          return false;
+      }
+      // Ctrl+Shift+I / J / C (Windows/Linux)
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+          e.preventDefault();
+          return false;
+      }
+      // Cmd+Option+I / J / C (Mac)
+      if (e.metaKey && e.altKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+          e.preventDefault();
+          return false;
+      }
+      // Ctrl+U / Cmd+U (View Source)
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
+          e.preventDefault();
+          return false;
+      }
+      // Ctrl+S / Cmd+S (Save Page)
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
+          e.preventDefault();
+          return false;
+      }
+  });
+
+  // DevTools Detection (Redirects if opened)
+  setInterval(function() {
+      var widthThreshold = window.outerWidth - window.innerWidth > 160;
+      var heightThreshold = window.outerHeight - window.innerHeight > 160;
+      var orientation = widthThreshold ? 'vertical' : 'horizontal';
+      
+      if ((heightThreshold && widthThreshold) || (window.Firebug && window.Firebug.chrome && window.Firebug.chrome.isInitialized)) {
+          if (document.body) {
+              document.body.innerHTML = '<div style="text-align:center;margin-top:20vh;font-family:sans-serif;"><h1>Security Notice</h1><p>Developer tools are not permitted on this page.</p></div>';
+          }
+          window.location.reload();
+      }
+  }, 1000);
+</script>
+<!-- =========================================================
+     ANTI-SOURCE CODE PROTECTION (Ends Here)
+     ========================================================= -->
+
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <style>
   :root {
@@ -92,7 +160,7 @@
   .state-verifying .cf-turnstile { display: none; }
 </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
 <div class="cf-card" id="cfCard">
   <!-- Title & Subtitle matching screenshot -->
